@@ -1,0 +1,63 @@
+---
+/**
+ * Figure — art-directed placeholder "photography".
+ *
+ * The research forbids stock imagery, so instead of shipping fake photos we
+ * render an intentional warm duotone composition with film grain. Every figure
+ * carries real, descriptive alt-equivalent text and a note describing the
+ * production photo that belongs here, so assets can be dropped in 1:1 later.
+ *
+ * Replace with an <Image /> (astro:assets) pointing at the described shot.
+ */
+interface Props {
+  /** Describes the intended production photograph (also the a11y label). */
+  alt: string;
+  /** aspect-ratio, e.g. '3/4', '16/9', '1/1'. Reserved to keep CLS at zero. */
+  ratio?: string;
+  /** Small editorial caption chip. */
+  caption?: string;
+  /** Monogram/initials shown faintly as a compositional anchor. */
+  monogram?: string;
+  rounded?: boolean;
+  /** Fill the parent cell instead of enforcing an aspect-ratio (grid tiles). */
+  fill?: boolean;
+  class?: string;
+}
+
+const {
+  alt,
+  ratio = '3/4',
+  caption,
+  monogram = 'V',
+  rounded = true,
+  fill = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<figure
+  class:list={[
+    'placeholder-media group relative flex items-center justify-center',
+    rounded && 'rounded-2xl2',
+    fill && 'h-full w-full',
+    className,
+  ]}
+  style={fill ? undefined : `aspect-ratio:${ratio}`}
+  role="img"
+  aria-label={alt}
+>
+  <span
+    aria-hidden="true"
+    class="font-display text-[clamp(3rem,8vw,6rem)] font-light text-porcelain/40 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+  >
+    {monogram}
+  </span>
+
+  {
+    caption && (
+      <figcaption class="absolute bottom-3 left-3 rounded-full bg-espresso/45 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.14em] text-porcelain backdrop-blur-sm">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>

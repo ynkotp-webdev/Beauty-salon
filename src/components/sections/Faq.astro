@@ -1,0 +1,49 @@
+---
+/**
+ * FAQ — AIDA: Action. Removes final barriers before booking.
+ * Native <details>/<summary> = accessible & keyboard-operable with zero JS;
+ * enhanced to single-open via scripts/accordion.ts.
+ */
+import Section from '@ui/Section.astro';
+import Eyebrow from '@ui/Eyebrow.astro';
+import Reveal from '@ui/Reveal.astro';
+import { faq } from '@data/content';
+---
+
+<Section id="faq" tone="linen" space="lg">
+  <div class="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+    <div class="lg:sticky lg:top-28 lg:self-start">
+      <Eyebrow>Поширені запитання</Eyebrow>
+      <h2 class="mt-5 font-display text-3xl font-light leading-[1.1] text-ink sm:text-4xl">
+        Відповіді на те, що варто знати
+      </h2>
+      <p class="mt-5 max-w-sm text-lg leading-relaxed text-stone">
+        Не знайшли відповіді? Напишіть нам — ми радо все пояснимо ще до вашого візиту.
+      </p>
+    </div>
+
+    <Reveal as="div" data-accordion class="flex flex-col">
+      {
+        faq.map((item, i) => (
+          <details
+            class="group border-b border-mist py-2 [&_svg]:open:rotate-45"
+            name="faq"
+            open={i === 0}
+          >
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left [&::-webkit-details-marker]:hidden">
+              <span class="font-display text-lg font-normal text-ink sm:text-xl">{item.question}</span>
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-canvas text-mocha-deep" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+              </span>
+            </summary>
+            <div class="max-w-xl pb-5 pr-10 text-[0.95rem] leading-relaxed text-stone">
+              {item.answer}
+            </div>
+          </details>
+        ))
+      }
+    </Reveal>
+  </div>
+</Section>

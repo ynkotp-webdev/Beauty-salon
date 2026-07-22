@@ -1,0 +1,23 @@
+---
+/**
+ * Container — centered content column with a consistent gutter.
+ * `width` narrows the column for reading-optimised sections.
+ */
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  width?: 'default' | 'narrow' | 'wide';
+  class?: string;
+}
+
+const { as: Tag = 'div', width = 'default', class: className = '' } = Astro.props;
+
+const widths: Record<NonNullable<Props['width']>, string> = {
+  narrow: 'max-w-3xl',
+  default: 'max-w-[78rem]',
+  wide: 'max-w-[86rem]',
+};
+---
+
+<Tag class:list={['mx-auto w-full px-5 sm:px-8 lg:px-12', widths[width], className]}>
+  <slot />
+</Tag>

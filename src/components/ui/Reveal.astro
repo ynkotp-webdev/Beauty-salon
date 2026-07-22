@@ -1,0 +1,20 @@
+---
+/**
+ * Reveal — opts a block into the scroll-driven fade/rise animation.
+ * The actual motion is CSS-driven ([data-reveal]); a tiny observer toggles
+ * [data-revealed]. Falls back to fully visible when JS or motion is off.
+ */
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  /** Stagger delay in milliseconds. */
+  delay?: number;
+  class?: string;
+}
+
+const { as: Tag = 'div', delay = 0, class: className = '' }: Props = Astro.props;
+const style = delay ? `--reveal-delay:${delay}ms` : undefined;
+---
+
+<Tag data-reveal style={style} class={className}>
+  <slot />
+</Tag>

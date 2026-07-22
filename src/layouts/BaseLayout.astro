@@ -1,0 +1,113 @@
+---
+/**
+ * BaseLayout — document shell: head, SEO/OG, structured data, skip link,
+ * global styles and the single client script entry.
+ */
+import '../styles/global.css';
+import { site, contact, openingHours, socials } from '@data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path to an OG image relative to site root. */
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = site.metaDescription,
+  ogImage = '/og-image.svg',
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImageUrl = new URL(ogImage, site.url).href;
+
+// Schema.org LocalBusiness (BeautySalon) for rich results.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BeautySalon',
+  name: site.name,
+  description: site.metaDescription,
+  url: site.url,
+  telephone: contact.phoneDisplay,
+  email: contact.email,
+  image: ogImageUrl,
+  priceRange: '₴₴',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: contact.street,
+    addressLocality: contact.city,
+    postalCode: contact.postcode,
+    addressCountry: 'UA',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: contact.geo.lat,
+    longitude: contact.geo.lng,
+  },
+  openingHoursSpecification: openingHours.map((o) => ({
+    '@type': 'OpeningHoursSpecification',
+    description: `${o.day}: ${o.hours}`,
+  })),
+  sameAs: socials.map((s) => s.href),
+};
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <!-- Flag JS synchronously so scroll-reveal styles apply without FOUC,
+         while no-JS visitors still get fully visible content. -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#f4efe9" />
+    <meta name="color-scheme" content="light" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={`${site.name} — ${site.tagline}`} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </head>
+
+  <body>
+    <!-- Skip link — first tab stop, jumps to main content. -->
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl2 focus:bg-mocha focus:px-5 focus:py-3 focus:text-porcelain focus:shadow-lift"
+    >
+      Перейти до основного вмісту
+    </a>
+
+    <slot />
+
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

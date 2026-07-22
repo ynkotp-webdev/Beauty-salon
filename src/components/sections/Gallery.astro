@@ -1,0 +1,58 @@
+---
+/**
+ * Gallery — an asymmetric editorial grid of atmosphere/detail placeholders.
+ * Doubles as the "Instagram" moment: a link out to the salon's feed.
+ */
+import Section from '@ui/Section.astro';
+import SectionHeading from '@ui/SectionHeading.astro';
+import Reveal from '@ui/Reveal.astro';
+import Figure from '@ui/Figure.astro';
+import { gallery } from '@data/content';
+import { socials } from '@data/site';
+
+const instagram = socials.find((s) => s.label === 'Instagram');
+
+// Map span hints to grid placement for the asymmetric editorial layout.
+// Fixed row height + fill figures avoid aspect-ratio blowing past the grid.
+const spanClass = {
+  tall: 'row-span-2',
+  wide: 'col-span-2',
+  square: '',
+} as const;
+---
+
+<Section id="gallery" tone="espresso" space="lg" width="wide">
+  <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <SectionHeading
+      eyebrow="Атмосфера"
+      heading="Простір, у якому хочеться затриматися"
+      onDark
+      id="gallery-heading"
+    />
+    {
+      instagram && (
+        <a
+          href={instagram.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 self-start text-sm font-medium text-porcelain/80 transition-colors hover:text-porcelain md:self-auto"
+        >
+          Стежити в Instagram · {instagram.handle}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      )
+    }
+  </div>
+
+  <div class="mt-12 grid auto-rows-[9rem] grid-cols-2 gap-4 sm:auto-rows-[11rem] sm:grid-cols-3 lg:gap-5">
+    {
+      gallery.map((item, i) => (
+        <Reveal delay={(i % 3) * 80} class={`${spanClass[item.span]} min-h-0`}>
+          <Figure alt={item.alt} caption={item.caption} monogram="" fill class="brightness-[1.02]" />
+        </Reveal>
+      ))
+    }
+  </div>
+</Section>

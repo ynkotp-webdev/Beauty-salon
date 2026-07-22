@@ -1,0 +1,91 @@
+---
+/**
+ * Header — sticky global bar with wordmark, primary nav and booking CTA.
+ * Condenses on scroll (JS toggles [data-scrolled]). Mobile uses a full-screen
+ * overlay menu. The top bar itself sits in the "hard to reach" zone, so the
+ * real conversion path on mobile is the sticky bottom CTA (see StickyCta).
+ */
+import { navLinks, site } from '@data/site';
+import Button from '@ui/Button.astro';
+---
+
+<header
+  data-header
+  class="fixed inset-x-0 top-0 z-50 transition-[background,box-shadow,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] data-[scrolled]:bg-canvas/85 data-[scrolled]:shadow-soft data-[scrolled]:backdrop-blur-md"
+>
+  <nav aria-label="Головна навігація" class="mx-auto flex h-20 max-w-[86rem] items-center justify-between px-5 sm:px-8 lg:px-12">
+    <!-- Wordmark -->
+    <a
+      href="#top"
+      class="font-display text-2xl font-normal tracking-[0.22em] text-ink transition-opacity hover:opacity-70"
+      aria-label={`${site.name} — на початок`}
+    >
+      {site.name}
+    </a>
+
+    <!-- Desktop nav -->
+    <ul class="hidden items-center gap-8 lg:flex">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="relative text-sm text-stone transition-colors hover:text-ink after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-mocha after:transition-all after:duration-300 hover:after:w-full"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:block">
+        <Button href="#booking" size="md">Записатися</Button>
+      </div>
+
+      <!-- Mobile menu toggle -->
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="relative z-50 flex h-12 w-12 items-center justify-center rounded-xl2 text-ink transition-colors hover:bg-ink/5 lg:hidden"
+      >
+        <span class="sr-only">Відкрити меню</span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile overlay menu -->
+  <div
+    id="mobile-menu"
+    data-mobile-menu
+    class="invisible fixed inset-0 z-40 flex flex-col bg-canvas opacity-0 transition-[opacity,visibility] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] data-[open]:visible data-[open]:opacity-100 lg:hidden"
+  >
+    <div class="flex h-20 items-center justify-between px-5 sm:px-8">
+      <span class="font-display text-2xl tracking-[0.22em] text-ink">{site.name}</span>
+    </div>
+    <ul class="flex flex-1 flex-col justify-center gap-2 px-6">
+      {
+        navLinks.map((link, i) => (
+          <li>
+            <a
+              href={link.href}
+              class="block border-b border-mist/60 py-4 font-display text-2xl font-light text-ink"
+              style={`transition-delay:${i * 30}ms`}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="px-6 pb-10">
+      <Button href="#booking" size="lg" block>Підібрати час візиту</Button>
+    </div>
+  </div>
+</header>

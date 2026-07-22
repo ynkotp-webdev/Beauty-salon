@@ -1,0 +1,26 @@
+---
+/**
+ * Eyebrow — small uppercase kicker with a thin decorative rule.
+ * Used above section headings to establish editorial rhythm.
+ */
+interface Props {
+  align?: 'start' | 'center';
+  /** Render the rule in light form on dark backgrounds. */
+  onDark?: boolean;
+  class?: string;
+}
+
+const { align = 'start', onDark = false, class: className = '' } = Astro.props;
+---
+
+<p
+  class:list={[
+    'eyebrow flex items-center gap-3',
+    align === 'center' && 'justify-center',
+    onDark && 'text-lavender',
+    className,
+  ]}
+>
+  <span aria-hidden="true" class="rule inline-block h-px w-8 shrink-0"></span>
+  <slot />
+</p>

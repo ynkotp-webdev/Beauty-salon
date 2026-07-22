@@ -1,0 +1,37 @@
+---
+/**
+ * StickyCta — mobile-only bottom action bar that lives in the thumb zone.
+ * Hidden until the user scrolls past the hero (JS toggles [data-visible]),
+ * then slides up with hardware-accelerated transform. Height ≥ 56px.
+ */
+import { contact } from '@data/site';
+---
+
+<div
+  data-sticky-cta
+  class="fixed inset-x-0 bottom-0 z-40 translate-y-full border-t border-mist bg-canvas/90 px-4 pb-[env(safe-area-inset-bottom)] pt-3 backdrop-blur-md transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] data-[visible]:translate-y-0 sm:hidden"
+  aria-hidden="false"
+>
+  <div class="mx-auto flex max-w-md items-center gap-3 pb-3">
+    <a
+      href={contact.phoneHref}
+      class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl2 ring-1 ring-inset ring-ink/15 text-ink transition-colors hover:bg-ink/5"
+      aria-label="Зателефонувати в салон"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M6.5 3h3l1.5 4.5-2 1.5a12 12 0 006 6l1.5-2 4.5 1.5v3a2 2 0 01-2 2A16 16 0 014.5 5a2 2 0 012-2z"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
+    <a
+      href="#booking"
+      class="flex h-14 flex-1 items-center justify-center rounded-xl2 bg-mocha px-6 font-medium tracking-wide text-porcelain shadow-lift transition-colors hover:bg-mocha-deep"
+    >
+      Записатися на візит
+    </a>
+  </div>
+</div>

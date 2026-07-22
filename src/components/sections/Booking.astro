@@ -1,0 +1,265 @@
+---
+/**
+ * Booking — the conversion centrepiece (AIDA: Action).
+ *
+ * Implements the research's multi-step "enclosed checkout":
+ *   1. Direction of care   →  2. Specialist   →  3. Time & contact
+ * Progressive disclosure lowers cognitive load; a progress bar signals how
+ * little is left; validation is inline with text + icon (never colour-only);
+ * no account/registration is required. Logic lives in scripts/booking.ts.
+ */
+import Section from '@ui/Section.astro';
+import Eyebrow from '@ui/Eyebrow.astro';
+import Button from '@ui/Button.astro';
+import { serviceCategories } from '@data/services';
+import { specialists } from '@data/specialists';
+
+const timeSlots = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00'];
+---
+
+<Section id="booking" tone="linen" space="lg" width="default">
+  <div class="mx-auto max-w-3xl text-center">
+    <Eyebrow align="center">Запис на візит</Eyebrow>
+    <h2 class="mt-5 font-display text-3xl font-light leading-[1.1] text-ink sm:text-4xl">
+      Підберімо зручний час разом
+    </h2>
+    <p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-stone">
+      Кілька спокійних кроків — без реєстрації та зайвих полів. Ми підтвердимо
+      запис у месенджері або телефоном.
+    </p>
+  </div>
+
+  <form
+    data-booking
+    novalidate
+    class="mx-auto mt-12 max-w-3xl rounded-2xl2 border border-mist bg-porcelain p-6 shadow-lift sm:p-10"
+    aria-labelledby="booking"
+  >
+    <!-- Progress -->
+    <div class="mb-8">
+      <div class="mb-2 flex items-center justify-between">
+        <span data-progress-label class="eyebrow">Крок 1 з 3</span>
+        <span class="text-sm text-stone">Залишилось зовсім трохи</span>
+      </div>
+      <div class="h-1.5 w-full overflow-hidden rounded-full bg-sand" role="presentation">
+        <div
+          data-progress-fill
+          class="h-full rounded-full bg-mocha transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          style="width:33%"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Polite live region for step + validation announcements. -->
+    <p data-booking-live class="sr-only" aria-live="polite"></p>
+
+    <div data-booking-flow>
+      <!-- ───────────── Step 1: Direction ───────────── -->
+      <fieldset data-step class="border-0 p-0">
+        <legend class="sr-only">Оберіть напрям догляду</legend>
+        <h3 data-step-focus tabindex="-1" class="font-display text-xl font-normal text-ink focus:outline-none">
+          Що вас цікавить?
+        </h3>
+        <p class="mt-1 text-sm text-stone">Оберіть напрям — деталі узгодимо з майстром.</p>
+
+        <div data-required-group="direction" class="mt-6 grid gap-3 sm:grid-cols-2">
+          {
+            serviceCategories.map((cat, i) => (
+              <label class="group relative cursor-pointer">
+                <input type="radio" name="direction" value={cat.id} data-label={cat.title} class="peer sr-only" required checked={i === 0} />
+                <span class="flex h-full flex-col rounded-xl2 border border-mist bg-canvas p-5 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] peer-checked:border-mocha peer-checked:bg-mocha/[0.06] peer-checked:shadow-soft peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-mocha group-hover:border-mocha/40">
+                  <span class="font-display text-lg text-ink">{cat.title}</span>
+                  <span class="mt-2 text-sm leading-snug text-stone">{cat.summary}</span>
+                </span>
+              </label>
+            ))
+          }
+        </div>
+        <p data-error hidden class="mt-3 flex items-center gap-2 text-sm text-error">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" /><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+          Оберіть, будь ласка, напрям догляду.
+        </p>
+
+        <div class="mt-8 flex justify-end">
+          <Button type="button" data-next>Далі — обрати майстра</Button>
+        </div>
+      </fieldset>
+
+      <!-- ───────────── Step 2: Specialist ───────────── -->
+      <fieldset data-step hidden class="border-0 p-0">
+        <legend class="sr-only">Оберіть майстра</legend>
+        <h3 data-step-focus tabindex="-1" class="font-display text-xl font-normal text-ink focus:outline-none">
+          До кого записати?
+        </h3>
+        <p class="mt-1 text-sm text-stone">Оберіть майстра або довіртеся нашому розкладу.</p>
+
+        <div data-required-group="specialist" class="mt-6 grid gap-3 sm:grid-cols-2">
+          <label class="group relative cursor-pointer sm:col-span-2">
+            <input type="radio" name="specialist" value="any" data-label="Будь-який вільний майстер" class="peer sr-only" required checked />
+            <span class="flex items-center gap-4 rounded-xl2 border border-mist bg-canvas p-5 transition-all duration-300 peer-checked:border-mocha peer-checked:bg-mocha/[0.06] peer-checked:shadow-soft peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-mocha group-hover:border-mocha/40">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full bg-sand text-mocha-deep" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 20a7 7 0 0114 0M12 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+              </span>
+              <span>
+                <span class="block font-medium text-ink">Будь-який вільний майстер</span>
+                <span class="block text-sm text-stone">Найближчий доступний час — якщо цінуєте швидкість.</span>
+              </span>
+            </span>
+          </label>
+
+          {
+            specialists.map((person) => (
+              <label class="group relative cursor-pointer">
+                <input type="radio" name="specialist" value={person.id} data-label={person.name} class="peer sr-only" />
+                <span class="flex h-full items-center gap-3 rounded-xl2 border border-mist bg-canvas p-4 transition-all duration-300 peer-checked:border-mocha peer-checked:bg-mocha/[0.06] peer-checked:shadow-soft peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-mocha group-hover:border-mocha/40">
+                  <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sand font-display text-mocha-deep" aria-hidden="true">
+                    {person.name.charAt(0)}
+                  </span>
+                  <span class="min-w-0">
+                    <span class="block truncate font-medium text-ink">{person.name}</span>
+                    <span class="block truncate text-sm text-stone">{person.role}</span>
+                  </span>
+                </span>
+              </label>
+            ))
+          }
+        </div>
+        <p data-error hidden class="mt-3 flex items-center gap-2 text-sm text-error">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" /><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+          Оберіть майстра або варіант «будь-який вільний».
+        </p>
+
+        <div class="mt-8 flex items-center justify-between gap-3">
+          <Button type="button" variant="ghost" data-back>← Назад</Button>
+          <Button type="button" data-next>Далі — час і контакти</Button>
+        </div>
+      </fieldset>
+
+      <!-- ───────────── Step 3: Time & contact ───────────── -->
+      <fieldset data-step hidden class="border-0 p-0">
+        <legend class="sr-only">Час візиту та контактні дані</legend>
+        <h3 data-step-focus tabindex="-1" class="font-display text-xl font-normal text-ink focus:outline-none">
+          Коли вам зручно?
+        </h3>
+        <p class="mt-1 text-sm text-stone">Ми узгодимо точний час під час підтвердження.</p>
+
+        <div class="mt-6 grid gap-6 sm:grid-cols-2">
+          <!-- Date -->
+          <div data-field class="flex flex-col gap-2">
+            <label for="booking-date" class="text-sm font-medium text-ink">Бажана дата</label>
+            <input
+              id="booking-date"
+              name="date"
+              type="date"
+              required
+              data-validate
+              class="min-h-[3rem] rounded-xl2 border border-mist bg-canvas px-4 text-ink transition-colors focus:border-mocha data-[invalid]:border-error"
+            />
+            <p data-error hidden class="flex items-center gap-1.5 text-sm text-error">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" /><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            </p>
+          </div>
+
+          <!-- Time slots -->
+          <div class="flex flex-col gap-2">
+            <span class="text-sm font-medium text-ink">Зручний час</span>
+            <div data-required-group="time" class="flex flex-wrap gap-2">
+              {
+                timeSlots.map((slot, i) => (
+                  <label class="cursor-pointer">
+                    <input type="radio" name="time" value={slot} data-label={slot} class="peer sr-only" checked={i === 2} required />
+                    <span class="inline-flex min-h-[2.75rem] items-center rounded-xl2 border border-mist bg-canvas px-4 text-sm text-ink transition-all peer-checked:border-mocha peer-checked:bg-mocha peer-checked:text-porcelain peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-mocha hover:border-mocha/50">
+                      {slot}
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+            <p data-error hidden class="text-sm text-error">Оберіть зручний час.</p>
+          </div>
+
+          <!-- Name -->
+          <div data-field class="flex flex-col gap-2">
+            <label for="booking-name" class="text-sm font-medium text-ink">Ваше імʼя</label>
+            <input
+              id="booking-name"
+              name="name"
+              type="text"
+              required
+              autocomplete="given-name"
+              data-validate
+              placeholder="Наприклад, Софія"
+              class="min-h-[3rem] rounded-xl2 border border-mist bg-canvas px-4 text-ink transition-colors placeholder:text-stone/50 focus:border-mocha aria-[invalid=true]:border-error"
+            />
+            <p data-error hidden class="flex items-center gap-1.5 text-sm text-error">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" /><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            </p>
+          </div>
+
+          <!-- Phone -->
+          <div data-field class="flex flex-col gap-2">
+            <label for="booking-phone" class="text-sm font-medium text-ink">Номер телефону</label>
+            <input
+              id="booking-phone"
+              name="phone"
+              type="tel"
+              required
+              inputmode="tel"
+              autocomplete="tel"
+              data-validate
+              placeholder="+380 __ ___ __ __"
+              class="min-h-[3rem] rounded-xl2 border border-mist bg-canvas px-4 text-ink transition-colors placeholder:text-stone/50 focus:border-mocha aria-[invalid=true]:border-error"
+            />
+            <p data-error hidden class="flex items-center gap-1.5 text-sm text-error">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" /><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            </p>
+          </div>
+
+          <!-- Note (optional) -->
+          <div data-field class="flex flex-col gap-2 sm:col-span-2">
+            <label for="booking-note" class="text-sm font-medium text-ink">
+              Коментар <span class="font-normal text-stone">(необовʼязково)</span>
+            </label>
+            <textarea
+              id="booking-note"
+              name="note"
+              rows="3"
+              placeholder="Побажання, деталі чи запитання до майстра"
+              class="resize-none rounded-xl2 border border-mist bg-canvas px-4 py-3 text-ink transition-colors placeholder:text-stone/50 focus:border-mocha"
+            ></textarea>
+          </div>
+        </div>
+
+        <p class="mt-5 text-xs leading-relaxed text-stone">
+          Натискаючи «Надіслати заявку», ви погоджуєтесь на обробку контактних
+          даних для підтвердження запису.
+        </p>
+
+        <div class="mt-6 flex items-center justify-between gap-3">
+          <Button type="button" variant="ghost" data-back>← Назад</Button>
+          <Button type="submit">Надіслати заявку</Button>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- ───────────── Success (enclosed confirmation) ───────────── -->
+    <div data-booking-success hidden class="text-center">
+      <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success/15 text-success" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </span>
+      <h3 data-step-focus tabindex="-1" class="mt-6 font-display text-2xl font-light text-ink focus:outline-none">
+        Дякуємо! Заявку прийнято
+      </h3>
+      <p class="mx-auto mt-3 max-w-md text-stone">
+        Найближчим часом ми звʼяжемося з вами, щоб підтвердити візит і відповісти
+        на запитання. Гарного дня!
+      </p>
+
+      <dl data-booking-summary class="mx-auto mt-8 max-w-md text-left"></dl>
+
+      <p class="mt-8 text-sm text-stone">
+        Потрібно щось змінити? Зателефонуйте нам — ми на звʼязку.
+      </p>
+    </div>
+  </form>
+</Section>

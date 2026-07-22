@@ -1,0 +1,254 @@
+/* =========================================================================
+   VERVENA — Design System
+   Editorial "Quiet Luxury" for a Lviv beauty salon.
+   Tokens are derived from the UX research: OKLCH palette for wide-gamut
+   fidelity, Perfect-Fourth (1.333) type scale, 8px spacing base, and
+   physically-eased motion.
+   ========================================================================= */
+
+@import 'tailwindcss';
+
+/* Self-hosted variable fonts (best LCP, no render-blocking external request). */
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/manrope';
+
+/* -------------------------------------------------------------------------
+   1. THEME TOKENS
+   Exposed to Tailwind so utilities like `bg-canvas`, `text-mocha`,
+   `font-display`, `rounded-xl2` are generated automatically.
+   ------------------------------------------------------------------------- */
+@theme {
+  /* — Surfaces & ink (warm, grounded neutrals) — */
+  --color-canvas: oklch(97.5% 0.01 75); /* Warm Alabaster — page background   */
+  --color-linen: oklch(93% 0.02 75); /* Muted Linen — alt sections        */
+  --color-porcelain: oklch(99% 0.004 75); /* Near-white — raised cards         */
+  --color-ink: oklch(22% 0.01 240); /* Slate Charcoal — primary text     */
+  --color-stone: oklch(45% 0.02 240); /* Soft Stone — muted text           */
+  --color-mist: oklch(88% 0.008 240); /* Hairline borders / dividers       */
+  --color-espresso: oklch(26% 0.018 60); /* Deep warm — inverted sections     */
+
+  /* — Quiet-luxury accents — */
+  --color-mocha: oklch(62% 0.08 65); /* Mocha Mousse — brand / primary CTA */
+  --color-mocha-deep: oklch(52% 0.08 62); /* Hover / pressed state             */
+  --color-lavender: oklch(88% 0.04 290); /* Digital Lavender — soft accent    */
+  --color-olive: oklch(52% 0.06 140); /* Verdant Olive — organic accent    */
+  --color-sand: oklch(90% 0.03 75); /* Warm chip / tag background        */
+
+  /* — System / accessibility — */
+  --color-success: oklch(58% 0.11 145); /* Validation — soft green           */
+  --color-error: oklch(52% 0.16 25); /* Errors — restrained red           */
+
+  /* — Typography — */
+  --font-display: 'Fraunces Variable', 'Georgia', serif;
+  --font-sans: 'Manrope Variable', 'Segoe UI', system-ui, sans-serif;
+
+  /* Perfect-Fourth (1.333) scale, fluid via clamp(). */
+  --text-caption: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 1.9rem);
+  --text-3xl: clamp(1.85rem, 1.5rem + 1.6vw, 2.6rem);
+  --text-4xl: clamp(2.25rem, 1.7rem + 2.6vw, 3.4rem);
+  --text-5xl: clamp(2.8rem, 2rem + 4vw, 4.75rem);
+
+  /* — Radii — */
+  --radius-lg: 0.75rem;
+  --radius-xl2: 1rem;
+  --radius-2xl2: 1.5rem;
+
+  /* — Elevation (soft, warm-tinted shadows — never harsh black) — */
+  --shadow-soft: 0 1px 2px oklch(26% 0.02 60 / 0.04), 0 8px 24px oklch(26% 0.02 60 / 0.06);
+  --shadow-lift: 0 2px 4px oklch(26% 0.02 60 / 0.05), 0 18px 40px oklch(26% 0.02 60 / 0.1);
+
+  /* — Motion (physical inertia; linear is banned per research) — */
+  --ease-out-quart: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* — Layout — */
+  --container-page: 78rem; /* 1248px max content width */
+}
+
+/* -------------------------------------------------------------------------
+   2. BASE LAYER
+   ------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    color-scheme: light;
+    --header-h: 5rem;
+    scroll-behavior: smooth;
+    /* Offset anchor targets so the sticky header never covers section titles. */
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    accent-color: var(--color-mocha);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* A whisper of warm film grain — premium tactility without media weight. */
+    background-image:
+      radial-gradient(oklch(62% 0.08 65 / 0.015) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 380;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible, generous focus ring for full keyboard operability (WCAG 2.2). */
+  :focus-visible {
+    outline: 2px solid var(--color-mocha);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  ::selection {
+    background: var(--color-mocha);
+    color: var(--color-porcelain);
+  }
+
+  /* Consistent media defaults — reserve space to keep CLS near zero. */
+  img, video, svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  :target {
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   3. COMPONENT UTILITIES
+   ------------------------------------------------------------------------- */
+@layer components {
+  /* Uppercase kicker / eyebrow label. */
+  .eyebrow {
+    font-size: var(--text-caption);
+    line-height: 1.4;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-mocha-deep);
+  }
+
+  /* Thin decorative rule used beside eyebrows. */
+  .rule {
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-mocha) 0%, transparent 100%);
+  }
+
+  /* Duotone placeholder "photography" — warm, filmic, intentional.
+     Swapped for real imagery in production; keeps the composition premium. */
+  .placeholder-media {
+    position: relative;
+    isolation: isolate;
+    background-color: var(--color-linen);
+    background-image:
+      radial-gradient(120% 120% at 78% 15%, oklch(88% 0.04 290 / 0.55) 0%, transparent 55%),
+      radial-gradient(120% 120% at 15% 85%, oklch(62% 0.08 65 / 0.42) 0%, transparent 55%),
+      linear-gradient(150deg, oklch(90% 0.03 75) 0%, oklch(84% 0.03 60) 100%);
+    overflow: hidden;
+  }
+  .placeholder-media::after {
+    /* Fine film grain layered over the gradient. */
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.5;
+    background-image:
+      repeating-linear-gradient(0deg, oklch(26% 0.02 60 / 0.04) 0 1px, transparent 1px 2px);
+    mix-blend-mode: overlay;
+  }
+
+  /* Dark, inverted context (footer / feature bands). */
+  .on-dark {
+    color: oklch(92% 0.01 75);
+  }
+  .on-dark h1, .on-dark h2, .on-dark h3, .on-dark h4 {
+    color: oklch(97% 0.008 75);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   4. MOTION — scroll reveals + reduced-motion contract
+   ------------------------------------------------------------------------- */
+@layer utilities {
+  /* Elements opt into a reveal; JS toggles [data-revealed] as they enter view.
+     Vertical travel is capped at 20px per the research.
+     Progressive enhancement: the hidden initial state applies ONLY when JS is
+     available (html.js, set synchronously in <head>). Without JS every element
+     stays fully visible — content is never hidden behind a script. */
+  .js.reveal-enabled [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.7s var(--ease-out-quart),
+      transform 0.7s var(--ease-out-quart);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .js.reveal-enabled [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Utility to hide content visually while keeping it for assistive tech. */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* Respect the user's motion preference — disable all non-essential motion. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js.reveal-enabled [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

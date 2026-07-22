@@ -1,0 +1,52 @@
+---
+/**
+ * About — brand philosophy. Editorial, asymmetric split: quiet copy beside a
+ * tall placeholder portrait and three honest "quality markers" (no fake stats).
+ */
+import Section from '@ui/Section.astro';
+import Eyebrow from '@ui/Eyebrow.astro';
+import Reveal from '@ui/Reveal.astro';
+import Figure from '@ui/Figure.astro';
+import { philosophy } from '@data/content';
+---
+
+<Section id="about" tone="canvas" space="lg" width="wide">
+  <div class="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+    <!-- Media -->
+    <Reveal class="relative order-last lg:order-first">
+      <Figure
+        alt="Інтерʼєр салону VERVENA: тепле бічне світло з високого вікна, натуральні матеріали, живі рослини та мінімум предметів"
+        ratio="4/5"
+        caption="VERVENA · Львів"
+        class="shadow-lift"
+      />
+      <div class="absolute -right-5 -top-5 hidden h-24 w-24 rounded-full bg-lavender/40 blur-xl lg:block" aria-hidden="true"></div>
+    </Reveal>
+
+    <!-- Copy -->
+    <div>
+      <Eyebrow>{philosophy.eyebrow}</Eyebrow>
+      <Reveal as="h2" delay={60} class="mt-5 max-w-xl font-display text-3xl font-light leading-[1.1] text-ink sm:text-4xl">
+        {philosophy.heading}
+      </Reveal>
+
+      <div class="mt-7 flex max-w-xl flex-col gap-5">
+        {philosophy.paragraphs.map((p, i) => (
+          <Reveal as="p" delay={120 + i * 80} class="text-lg leading-relaxed text-stone">
+            {p}
+          </Reveal>
+        ))}
+      </div>
+
+      <!-- Honest quality markers -->
+      <dl class="mt-10 grid gap-6 border-t border-mist pt-8 sm:grid-cols-3">
+        {philosophy.markers.map((m, i) => (
+          <Reveal as="div" delay={200 + i * 70}>
+            <dt class="font-display text-xl text-mocha-deep">{m.value}</dt>
+            <dd class="mt-1 text-sm leading-snug text-stone">{m.label}</dd>
+          </Reveal>
+        ))}
+      </dl>
+    </div>
+  </div>
+</Section>

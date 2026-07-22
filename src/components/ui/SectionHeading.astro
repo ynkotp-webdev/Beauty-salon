@@ -1,0 +1,56 @@
+---
+/**
+ * SectionHeading — eyebrow + heading + optional intro paragraph.
+ * Standardises the editorial header pattern used across sections.
+ */
+import Eyebrow from './Eyebrow.astro';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  align?: 'start' | 'center';
+  as?: 'h2' | 'h3';
+  onDark?: boolean;
+  id?: string;
+  class?: string;
+}
+
+const {
+  eyebrow,
+  heading,
+  intro,
+  align = 'start',
+  as: Heading = 'h2',
+  onDark = false,
+  id,
+  class: className = '',
+}: Props = Astro.props;
+---
+
+<div
+  class:list={[
+    'flex flex-col gap-4',
+    align === 'center' && 'items-center text-center',
+    align === 'center' ? 'mx-auto max-w-2xl' : 'max-w-2xl',
+    className,
+  ]}
+>
+  {eyebrow && <Eyebrow align={align} onDark={onDark}>{eyebrow}</Eyebrow>}
+  <Heading
+    id={id}
+    class:list={[
+      'text-3xl sm:text-4xl font-light leading-[1.08]',
+      onDark && 'text-porcelain',
+    ]}
+  >
+    {heading}
+  </Heading>
+  {
+    intro && (
+      <p class:list={['text-lg leading-relaxed', onDark ? 'text-porcelain/70' : 'text-stone']}>
+        {intro}
+      </p>
+    )
+  }
+</div>

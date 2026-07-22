@@ -1,0 +1,25 @@
+{
+  "name": "vervena-beauty-salon",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VERVENA — premium beauty salon in Lviv. Editorial, quiet-luxury marketing site built with Astro & Tailwind CSS.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.2.5",
+    "@fontsource-variable/manrope": "^5.2.5",
+    "@tailwindcss/vite": "^4.1.11",
+    "astro": "^5.13.0",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "typescript": "^5.9.3"
+  }
+}

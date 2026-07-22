@@ -1,0 +1,86 @@
+---
+/**
+ * Footer — closing brand band. Wordmark, contact, navigation and socials.
+ * Deep warm "espresso" tone bookends the light page with a calm anchor.
+ */
+import Container from '@ui/Container.astro';
+import { site, navLinks, contact, socials, openingHours } from '@data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-espresso on-dark">
+  <Container width="wide" as="div" class="py-16 sm:py-20">
+    <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr] lg:gap-8">
+      <!-- Brand -->
+      <div class="max-w-sm">
+        <p class="font-display text-3xl tracking-[0.2em] text-porcelain">{site.name}</p>
+        <p class="mt-4 text-[0.95rem] leading-relaxed text-porcelain/60">
+          {site.tagline}. Салон краси у центрі Львова — волосся, догляд за
+          обличчям, манікюр, брови та вії у спокійній атмосфері.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          {
+            socials.map((s) => (
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="rounded-full border border-porcelain/20 px-4 py-2 text-sm text-porcelain/80 transition-colors hover:border-porcelain/50 hover:text-porcelain"
+              >
+                {s.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav aria-label="Навігація у підвалі">
+        <p class="eyebrow mb-5 text-lavender">Розділи</p>
+        <ul class="flex flex-col gap-3">
+          {
+            navLinks.map((link) => (
+              <li>
+                <a href={link.href} class="text-porcelain/70 transition-colors hover:text-porcelain">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Contacts + hours -->
+      <div>
+        <p class="eyebrow mb-5 text-lavender">Контакти</p>
+        <address class="flex flex-col gap-2 not-italic text-porcelain/70">
+          <span>{contact.street}, {contact.city}</span>
+          <a href={contact.phoneHref} class="transition-colors hover:text-porcelain">{contact.phoneDisplay}</a>
+          <a href={contact.emailHref} class="transition-colors hover:text-porcelain">{contact.email}</a>
+        </address>
+        <ul class="mt-5 flex flex-col gap-1.5 text-sm text-porcelain/55">
+          {openingHours.map((o) => (
+            <li class="flex justify-between gap-4">
+              <span>{o.day}</span>
+              <span>{o.hours}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-14 flex flex-col gap-4 border-t border-porcelain/15 pt-8 text-sm text-porcelain/50 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {site.legalName}. Усі права захищено.</p>
+      <p class="flex flex-wrap gap-x-6 gap-y-2">
+        <a href="#" class="transition-colors hover:text-porcelain/80">Політика конфіденційності</a>
+        <a href="#" class="transition-colors hover:text-porcelain/80">Публічна оферта</a>
+      </p>
+    </div>
+
+    <p class="mt-8 text-xs leading-relaxed text-porcelain/35">
+      Вигаданий проєкт для портфоліо. Бренд, тексти й контактні дані є
+      демонстраційними та не належать реальному закладу.
+    </p>
+  </Container>
+</footer>

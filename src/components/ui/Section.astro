@@ -1,0 +1,64 @@
+---
+/**
+ * Section — vertical rhythm wrapper for each block of the page narrative.
+ * Handles semantic landmark, id anchor, background tone and vertical padding.
+ */
+import Container from './Container.astro';
+
+interface Props {
+  id?: string;
+  /** Background tone from the design system. */
+  tone?: 'canvas' | 'linen' | 'porcelain' | 'espresso';
+  /** Vertical spacing scale. */
+  space?: 'sm' | 'md' | 'lg';
+  /** Constrain the inner container width. */
+  width?: 'default' | 'narrow' | 'wide';
+  /** Accessible label for the landmark when there is no visible heading. */
+  label?: string;
+  labelledby?: string;
+  /** Set false to render children full-bleed without the inner container. */
+  contained?: boolean;
+  class?: string;
+}
+
+const {
+  id,
+  tone = 'canvas',
+  space = 'lg',
+  width = 'default',
+  label,
+  labelledby,
+  contained = true,
+  class: className = '',
+} = Astro.props;
+
+const tones = {
+  canvas: 'bg-canvas text-ink',
+  linen: 'bg-linen text-ink',
+  porcelain: 'bg-porcelain text-ink',
+  espresso: 'bg-espresso on-dark',
+} as const;
+
+const spaces = {
+  sm: 'py-14 sm:py-16',
+  md: 'py-16 sm:py-24',
+  lg: 'py-20 sm:py-28 lg:py-36',
+} as const;
+---
+
+<section
+  id={id}
+  class:list={['relative', tones[tone], spaces[space], className]}
+  aria-label={label}
+  aria-labelledby={labelledby}
+>
+  {
+    contained ? (
+      <Container width={width}>
+        <slot />
+      </Container>
+    ) : (
+      <slot />
+    )
+  }
+</section>

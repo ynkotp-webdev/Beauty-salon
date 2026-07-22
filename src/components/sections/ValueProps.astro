@@ -1,0 +1,26 @@
+---
+/**
+ * ValueProps — AIDA: Interest / Trust.
+ * Three calm reassurances that dissolve first-visit anxiety. No loud icons —
+ * a thin numeric marker and generous whitespace carry the hierarchy.
+ */
+import Section from '@ui/Section.astro';
+import Reveal from '@ui/Reveal.astro';
+import { valueProps } from '@data/content';
+---
+
+<Section id="values" tone="linen" space="md" label="Чому нам довіряють">
+  <div class="grid gap-px overflow-hidden rounded-2xl2 bg-mist/70 sm:grid-cols-3">
+    {
+      valueProps.map((prop, i) => (
+        <Reveal delay={i * 90} class="flex h-full flex-col gap-4 bg-linen p-8 sm:p-10">
+          <span class="font-display text-sm text-mocha-deep" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <h3 class="font-display text-xl font-normal text-ink">{prop.title}</h3>
+          <p class="text-[0.95rem] leading-relaxed text-stone">{prop.body}</p>
+        </Reveal>
+      ))
+    }
+  </div>
+</Section>

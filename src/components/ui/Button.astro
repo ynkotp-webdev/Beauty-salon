@@ -1,0 +1,58 @@
+---
+/**
+ * Button — the single interactive-action primitive.
+ * Renders as <a> when `href` is present, otherwise <button>.
+ * Variants follow the quiet-luxury system; all sizes meet the 48px touch target.
+ */
+interface Props {
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'light';
+  size?: 'md' | 'lg';
+  block?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  type = 'button',
+  variant = 'primary',
+  size = 'md',
+  block = false,
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const base =
+  'group relative inline-flex items-center justify-center gap-2.5 font-medium tracking-wide rounded-xl2 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-2 focus-visible:outline-offset-3 active:scale-[0.98] select-none';
+
+const sizes = {
+  md: 'min-h-[3rem] px-6 text-[0.95rem]',
+  lg: 'min-h-[3.5rem] px-8 text-base',
+} as const;
+
+const variants = {
+  primary:
+    'bg-mocha text-porcelain shadow-soft hover:bg-mocha-deep hover:shadow-lift focus-visible:outline-mocha',
+  secondary:
+    'bg-transparent text-ink ring-1 ring-inset ring-ink/15 hover:ring-ink/40 hover:bg-ink/[0.03] focus-visible:outline-ink',
+  ghost:
+    'bg-transparent text-mocha-deep hover:text-ink hover:bg-mocha/[0.06] focus-visible:outline-mocha',
+  light:
+    'bg-porcelain text-ink shadow-soft hover:bg-white focus-visible:outline-porcelain',
+} as const;
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : type}
+  class:list={[base, sizes[size], variants[variant], block && 'w-full', className]}
+  {...rest}
+>
+  <span class="relative flex items-center gap-2.5">
+    <slot />
+  </span>
+</Tag>

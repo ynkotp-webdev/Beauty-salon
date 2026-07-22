@@ -1,0 +1,44 @@
+---
+/**
+ * Home — single-page editorial narrative for VERVENA.
+ * Section order follows the research's AIDA flow:
+ * Attention → Interest/Trust → Desire → Authority → Proof → Action.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import StickyCta from '@components/StickyCta.astro';
+
+import Hero from '@components/sections/Hero.astro';
+import ValueProps from '@components/sections/ValueProps.astro';
+import Services from '@components/sections/Services.astro';
+import About from '@components/sections/About.astro';
+import Results from '@components/sections/Results.astro';
+import Specialists from '@components/sections/Specialists.astro';
+import Gallery from '@components/sections/Gallery.astro';
+import Testimonials from '@components/sections/Testimonials.astro';
+import Faq from '@components/sections/Faq.astro';
+import Booking from '@components/sections/Booking.astro';
+import Contact from '@components/sections/Contact.astro';
+---
+
+<BaseLayout>
+  <Header />
+
+  <main id="main">
+    <Hero />
+    <ValueProps />
+    <Services />
+    <About />
+    <Results />
+    <Specialists />
+    <Gallery />
+    <Testimonials />
+    <Faq />
+    <Booking />
+    <Contact />
+  </main>
+
+  <Footer />
+  <StickyCta />
+</BaseLayout>

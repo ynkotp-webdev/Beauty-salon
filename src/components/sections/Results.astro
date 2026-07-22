@@ -1,0 +1,74 @@
+---
+/**
+ * Results — AIDA: Desire.
+ * Accessible before/after comparison (drag, click, full keyboard control via
+ * the WAI-ARIA slider pattern — see scripts/before-after.ts).
+ */
+import Section from '@ui/Section.astro';
+import SectionHeading from '@ui/SectionHeading.astro';
+import Reveal from '@ui/Reveal.astro';
+---
+
+<Section id="results" tone="canvas" space="lg">
+  <SectionHeading
+    eyebrow="Результати"
+    heading="Зміни, які видно й приємно торкнутися"
+    intro="Пересувайте роздільник, щоб порівняти стан до та після догляду. Керується мишею, дотиком або клавішами-стрілками."
+    align="center"
+    id="results-heading"
+    class="mb-12"
+  />
+
+  <Reveal class="mx-auto max-w-4xl">
+    <div
+      data-before-after
+      class="relative aspect-[16/10] w-full select-none overflow-hidden rounded-2xl2 shadow-lift"
+      role="group"
+      aria-label="Порівняння результату догляду за обличчям: до та після"
+    >
+      <!-- AFTER (base layer) -->
+      <div
+        class="placeholder-media absolute inset-0"
+        style="background-image: radial-gradient(120% 120% at 70% 20%, oklch(90% 0.03 75/0.8) 0%, transparent 55%), linear-gradient(150deg, oklch(93% 0.02 75) 0%, oklch(88% 0.03 60) 100%);"
+        role="img"
+        aria-label="Після догляду: рівний тон, природне сяйво, доглянута шкіра"
+      >
+        <span class="absolute bottom-4 right-4 rounded-full bg-porcelain/85 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-ink">Після</span>
+      </div>
+
+      <!-- BEFORE (clipped top layer) -->
+      <div
+        data-before
+        class="placeholder-media absolute inset-0"
+        style="clip-path: inset(0 50% 0 0); background-image: linear-gradient(150deg, oklch(72% 0.02 60) 0%, oklch(60% 0.015 250) 100%); filter: saturate(0.7);"
+        role="img"
+        aria-label="До догляду: тьмяний тон, нерівна текстура шкіри"
+      >
+        <span class="absolute bottom-4 left-4 rounded-full bg-espresso/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-porcelain">До</span>
+      </div>
+
+      <!-- Divider handle -->
+      <div
+        data-handle
+        class="absolute top-0 bottom-0 z-10 -ml-0.5 w-1 cursor-ew-resize bg-porcelain shadow-[0_0_0_1px_oklch(26%_0.02_60/0.15)]"
+        style="left: 50%;"
+        role="slider"
+        tabindex="0"
+        aria-label="Роздільник порівняння"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="50"
+        aria-valuetext="50% — рівно посередині"
+      >
+        <span class="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-porcelain shadow-lift">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-mocha-deep">
+            <path d="M9 7l-4 5 4 5M15 7l4 5-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+      </div>
+    </div>
+    <p class="mt-4 text-center text-sm text-stone">
+      Ілюстративне порівняння. Реальні результати індивідуальні та залежать від стану шкіри.
+    </p>
+  </Reveal>
+</Section>
