@@ -29,6 +29,8 @@ export function initHeader(): void {
   const setOpen = (open: boolean) => {
     toggle.setAttribute('aria-expanded', String(open));
     menu.toggleAttribute('data-open', open);
+    // Strip the scrolled bar's tint/blur so it doesn't band across the overlay.
+    header?.toggleAttribute('data-menu-open', open);
     document.documentElement.classList.toggle('overflow-hidden', open);
     if (open) {
       menu.querySelector<HTMLElement>('a, button')?.focus();

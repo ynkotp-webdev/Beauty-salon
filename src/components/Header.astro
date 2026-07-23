@@ -11,7 +11,7 @@ import Button from '@ui/Button.astro';
 
 <header
   data-header
-  class="fixed inset-x-0 top-0 z-50 transition-[background,box-shadow,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] data-[scrolled]:bg-canvas/85 data-[scrolled]:shadow-soft data-[scrolled]:backdrop-blur-md"
+  class="fixed inset-x-0 top-0 z-50 transition-[background,box-shadow,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] data-scrolled:bg-canvas/85 data-scrolled:shadow-soft data-scrolled:backdrop-blur-md data-menu-open:bg-transparent! data-menu-open:shadow-none! data-menu-open:backdrop-blur-none!"
 >
   <nav aria-label="Головна навігація" class="mx-auto flex h-20 max-w-[86rem] items-center justify-between px-5 sm:px-8 lg:px-12">
     <!-- Wordmark -->
@@ -59,33 +59,38 @@ import Button from '@ui/Button.astro';
       </button>
     </div>
   </nav>
-
-  <!-- Mobile overlay menu -->
-  <div
-    id="mobile-menu"
-    data-mobile-menu
-    class="invisible fixed inset-0 z-40 flex flex-col bg-canvas opacity-0 transition-[opacity,visibility] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] data-[open]:visible data-[open]:opacity-100 lg:hidden"
-  >
-    <div class="flex h-20 items-center justify-between px-5 sm:px-8">
-      <span class="font-display text-2xl tracking-[0.22em] text-ink">{site.name}</span>
-    </div>
-    <ul class="flex flex-1 flex-col justify-center gap-2 px-6">
-      {
-        navLinks.map((link, i) => (
-          <li>
-            <a
-              href={link.href}
-              class="block border-b border-mist/60 py-4 font-display text-2xl font-light text-ink"
-              style={`transition-delay:${i * 30}ms`}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-    <div class="px-6 pb-10">
-      <Button href="#booking" size="lg" block>Підібрати час візиту</Button>
-    </div>
-  </div>
 </header>
+
+<!--
+  Mobile overlay menu — deliberately a sibling of <header>, not a child.
+  The scrolled header applies backdrop-filter, which makes it the containing
+  block for fixed descendants: nested here, the overlay collapsed to the
+  header's 80px and its links spilled over the page unbacked.
+  Sits above the sticky CTA (z-40) but below the header (z-50), so the
+  hamburger stays on top and closes it. The header's own bar shows through
+  the overlay's top padding, hence no duplicate wordmark row.
+-->
+<div
+  id="mobile-menu"
+  data-mobile-menu
+  class="invisible fixed inset-0 z-45 flex flex-col bg-canvas pt-20 opacity-0 transition-[opacity,visibility] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] data-open:visible data-open:opacity-100 lg:hidden"
+>
+  <ul class="flex flex-1 flex-col justify-center gap-2 px-6">
+    {
+      navLinks.map((link, i) => (
+        <li>
+          <a
+            href={link.href}
+            class="block border-b border-mist/60 py-4 font-display text-2xl font-light text-ink"
+            style={`transition-delay:${i * 30}ms`}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="px-6 pb-10">
+    <Button href="#booking" size="lg" block>Підібрати час візиту</Button>
+  </div>
+</div>
