@@ -4,6 +4,7 @@
  */
 import { initReveal } from './reveal';
 import { initHeader } from './header';
+import { initHeroVideo } from './hero-video';
 import { initBeforeAfter } from './before-after';
 import { initAccordion } from './accordion';
 import { initBooking } from './booking';
@@ -11,6 +12,7 @@ import { initBooking } from './booking';
 const boot = (): void => {
   initHeader();
   initReveal();
+  initHeroVideo();
   initBeforeAfter();
   initAccordion();
   initBooking();
