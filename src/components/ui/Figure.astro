@@ -1,36 +1,48 @@
 ---
 /**
- * Figure — art-directed placeholder "photography".
+ * Figure — editorial photography slot.
  *
- * The research forbids stock imagery, so instead of shipping fake photos we
- * render an intentional warm duotone composition with film grain. Every figure
- * carries real, descriptive alt-equivalent text and a note describing the
- * production photo that belongs here, so assets can be dropped in 1:1 later.
- *
- * Replace with an <Image /> (astro:assets) pointing at the described shot.
+ * Pass `src` (an `astro:assets` import) to render the real photograph; without
+ * it the component falls back to the art-directed duotone placeholder with film
+ * grain, so any section can ship before its shot exists. Either way the figure
+ * carries the same descriptive alt text and reserves its aspect-ratio, so
+ * dropping a photo in never shifts layout (CLS stays at zero).
  */
+import { Image } from 'astro:assets';
+
 interface Props {
-  /** Describes the intended production photograph (also the a11y label). */
+  /** Describes the photograph (also the a11y label for the placeholder). */
   alt: string;
+  /** Imported image. Omit to render the placeholder instead. */
+  src?: ImageMetadata;
   /** aspect-ratio, e.g. '3/4', '16/9', '1/1'. Reserved to keep CLS at zero. */
   ratio?: string;
   /** Small editorial caption chip. */
   caption?: string;
-  /** Monogram/initials shown faintly as a compositional anchor. */
+  /** Monogram/initials shown faintly as a compositional anchor (placeholder). */
   monogram?: string;
   rounded?: boolean;
   /** Fill the parent cell instead of enforcing an aspect-ratio (grid tiles). */
   fill?: boolean;
+  /** Candidate widths for the generated srcset. */
+  widths?: number[];
+  /** `sizes` hint — tells the browser how wide the image renders. */
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
   class?: string;
 }
 
 const {
   alt,
+  src,
   ratio = '3/4',
   caption,
   monogram = 'V',
   rounded = true,
   fill = false,
+  widths = [400, 600, 800, 1200],
+  sizes = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw',
+  loading = 'lazy',
   class: className = '',
 } = Astro.props;
 ---
@@ -43,19 +55,33 @@ const {
     className,
   ]}
   style={fill ? undefined : `aspect-ratio:${ratio}`}
-  role="img"
-  aria-label={alt}
+  role={src ? undefined : 'img'}
+  aria-label={src ? undefined : alt}
 >
-  <span
-    aria-hidden="true"
-    class="font-display text-[clamp(3rem,8vw,6rem)] font-light text-porcelain/40 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-  >
-    {monogram}
-  </span>
+  {
+    src ? (
+      <Image
+        src={src}
+        alt={alt}
+        widths={widths}
+        sizes={sizes}
+        loading={loading}
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+    ) : (
+      <span
+        aria-hidden="true"
+        class="font-display text-[clamp(3rem,8vw,6rem)] font-light text-porcelain/40 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+      >
+        {monogram}
+      </span>
+    )
+  }
 
   {
     caption && (
-      <figcaption class="absolute bottom-3 left-3 rounded-full bg-espresso/45 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.14em] text-porcelain backdrop-blur-sm">
+      <figcaption class="absolute bottom-3 left-3 z-10 rounded-full bg-espresso/45 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.14em] text-porcelain backdrop-blur-sm">
         {caption}
       </figcaption>
     )

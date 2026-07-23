@@ -4,9 +4,17 @@
  * Accessible before/after comparison (drag, click, full keyboard control via
  * the WAI-ARIA slider pattern — see scripts/before-after.ts).
  */
+import { Image } from 'astro:assets';
 import Section from '@ui/Section.astro';
 import SectionHeading from '@ui/SectionHeading.astro';
 import Reveal from '@ui/Reveal.astro';
+import beforeImage from '@/assets/results-before.jpg';
+import afterImage from '@/assets/results-after.jpg';
+
+// Both frames are shot identically, so they share one srcset recipe — any
+// mismatch in rendered size would break the illusion of a single photograph.
+const frameWidths = [640, 960, 1280, 1600];
+const frameSizes = '(min-width: 1024px) 56rem, 100vw';
 ---
 
 <Section id="results" tone="canvas" space="lg">
@@ -27,24 +35,35 @@ import Reveal from '@ui/Reveal.astro';
       aria-label="Порівняння результату догляду за обличчям: до та після"
     >
       <!-- AFTER (base layer) -->
-      <div
-        class="placeholder-media absolute inset-0"
-        style="background-image: radial-gradient(120% 120% at 70% 20%, oklch(90% 0.03 75/0.8) 0%, transparent 55%), linear-gradient(150deg, oklch(93% 0.02 75) 0%, oklch(88% 0.03 60) 100%);"
-        role="img"
-        aria-label="Після догляду: рівний тон, природне сяйво, доглянута шкіра"
-      >
-        <span class="absolute bottom-4 right-4 rounded-full bg-porcelain/85 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-ink">Після</span>
+      <div class="placeholder-media absolute inset-0">
+        <Image
+          src={afterImage}
+          alt="Після догляду: рівний тон, природне сяйво, доглянута шкіра"
+          widths={frameWidths}
+          sizes={frameSizes}
+          loading="lazy"
+          decoding="async"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <span class="absolute bottom-4 right-4 z-10 rounded-full bg-porcelain/85 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-ink">Після</span>
       </div>
 
       <!-- BEFORE (clipped top layer) -->
       <div
         data-before
         class="placeholder-media absolute inset-0"
-        style="clip-path: inset(0 50% 0 0); background-image: linear-gradient(150deg, oklch(72% 0.02 60) 0%, oklch(60% 0.015 250) 100%); filter: saturate(0.7);"
-        role="img"
-        aria-label="До догляду: тьмяний тон, нерівна текстура шкіри"
+        style="clip-path: inset(0 50% 0 0);"
       >
-        <span class="absolute bottom-4 left-4 rounded-full bg-espresso/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-porcelain">До</span>
+        <Image
+          src={beforeImage}
+          alt="До догляду: тьмяний тон, нерівна текстура шкіри"
+          widths={frameWidths}
+          sizes={frameSizes}
+          loading="lazy"
+          decoding="async"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <span class="absolute bottom-4 left-4 z-10 rounded-full bg-espresso/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-porcelain">До</span>
       </div>
 
       <!-- Divider handle -->

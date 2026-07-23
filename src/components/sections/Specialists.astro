@@ -26,7 +26,15 @@ import { specialists } from '@data/specialists';
       specialists.map((person, i) => (
         <Reveal as="li" delay={(i % 3) * 90} class="group flex flex-col">
           <div class="relative overflow-hidden rounded-2xl2">
-            <Figure alt={person.portraitAlt} ratio="4/5" monogram={person.name.charAt(0)} class="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]" />
+            <Figure
+              src={person.portrait}
+              alt={person.portraitAlt}
+              ratio="4/5"
+              monogram={person.name.charAt(0)}
+              widths={[320, 480, 640, 960]}
+              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
+              class="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+            />
           </div>
 
           <div class="mt-5 flex flex-1 flex-col">

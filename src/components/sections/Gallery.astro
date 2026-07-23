@@ -19,6 +19,15 @@ const spanClass = {
   wide: 'col-span-2',
   square: '',
 } as const;
+
+// `sizes` describes the rendered *width*, but a `tall` tile is one column wide
+// and two rows high — object-cover then scales by height, so it needs a bigger
+// candidate than its column width suggests. Overstate the hint accordingly.
+const sizeHint = {
+  tall: '(min-width: 640px) 60vw, 100vw',
+  wide: '(min-width: 640px) 66vw, 100vw',
+  square: '(min-width: 640px) 33vw, 50vw',
+} as const;
 ---
 
 <Section id="gallery" tone="espresso" space="lg" width="wide">
@@ -46,13 +55,32 @@ const spanClass = {
     }
   </div>
 
-  <div class="mt-12 grid auto-rows-[9rem] grid-cols-2 gap-4 sm:auto-rows-[11rem] sm:grid-cols-3 lg:gap-5">
-    {
-      gallery.map((item, i) => (
-        <Reveal delay={(i % 3) * 80} class={`${spanClass[item.span]} min-h-0`}>
-          <Figure alt={item.alt} caption={item.caption} monogram="" fill class="brightness-[1.02]" />
-        </Reveal>
-      ))
-    }
+  <!--
+    Row height tracks column width (container query units), so a `square` tile
+    stays 1/1 and a `wide` one stays 2/1 at every viewport. With a fixed row
+    height the columns keep growing while the rows don't, and on large screens
+    the tiles flatten until the crop eats the subject of the photo.
+  -->
+  <div class="@container mt-12">
+    <div
+      class="grid auto-rows-[calc((100cqw-1rem)/2)] grid-cols-2 gap-4 sm:auto-rows-[calc((100cqw-2rem)/3)] sm:grid-cols-3 lg:auto-rows-[calc((100cqw-2.5rem)/3)] lg:gap-5"
+    >
+      {
+        gallery.map((item, i) => (
+          <Reveal delay={(i % 3) * 80} class={`${spanClass[item.span]} min-h-0`}>
+            <Figure
+              src={item.image}
+              alt={item.alt}
+              caption={item.caption}
+              monogram=""
+              fill
+              widths={[320, 480, 720, 1024]}
+              sizes={sizeHint[item.span]}
+              class="brightness-[1.02]"
+            />
+          </Reveal>
+        ))
+      }
+    </div>
   </div>
 </Section>

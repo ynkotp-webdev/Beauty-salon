@@ -1,8 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="VERVENA">
-  <rect width="32" height="32" rx="7" fill="#2b221b" />
-  <g transform="translate(1.268 1.292) scale(0.09821)" fill="#eadcc9">
-    <g transform="translate(0,300) scale(0.1,-0.1)" stroke="none">
-      <path d="M380 2506 c0 -9 19 -15 57 -20 31 -4 71 -16 90 -27 36 -23 102 -94
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="38 48 224 203.5" fill="currentColor" role="img" aria-label="VERVENA">
+  <g transform="translate(0,300) scale(0.1,-0.1)" stroke="none">
+    <path d="M380 2506 c0 -9 19 -15 57 -20 31 -4 71 -16 90 -27 36 -23 102 -94
 120 -130 28 -56 103 -219 103 -224 0 -2 30 -69 66 -147 85 -185 103 -225 150
 -332 l39 -89 13 44 c8 24 14 77 14 117 -1 62 -6 82 -36 143 -35 71 -43 115
 -26 154 6 15 9 6 10 -35 l2 -55 20 61 21 61 -57 140 c-59 149 -68 201 -41 253
@@ -45,6 +43,5 @@
 -5 4 -6 -5 -10 -22 -10 -23 0 -31 -7 -46 -40 -26 -61 -23 -74 14 -66 17 3 37
 6 45 6 7 0 16 10 20 23 4 12 33 79 65 149 33 70 59 128 59 130 0 6 -59 5 -68
 -1z"/>
-    </g>
   </g>
 </svg>

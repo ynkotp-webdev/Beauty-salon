@@ -2,6 +2,12 @@
  * Editorial content blocks: value propositions, philosophy, gallery,
  * testimonials and FAQ. Kept together so copy is easy to maintain.
  */
+import type { ImageMetadata } from 'astro';
+
+import galleryColour from '@/assets/gallery-colour.webp';
+import galleryDetails from '@/assets/gallery-details.webp';
+import galleryLight from '@/assets/gallery-light.webp';
+import gallerySpace from '@/assets/gallery-space.webp';
 
 /* ------------------------------------------------------------------ */
 /* Value propositions — three calm reassurances (safety, quality,     */
@@ -46,9 +52,11 @@ export const philosophy = {
 };
 
 /* ------------------------------------------------------------------ */
-/* Gallery — described placeholder compositions with real alt text.   */
+/* Gallery — atmosphere/detail shots in an asymmetric editorial grid.  */
 /* ------------------------------------------------------------------ */
 export interface GalleryItem {
+  /** Photograph, processed through astro:assets. */
+  image: ImageMetadata;
   alt: string;
   /** Caption shown as a small editorial label. */
   caption: string;
@@ -58,21 +66,25 @@ export interface GalleryItem {
 
 export const gallery: GalleryItem[] = [
   {
+    image: gallerySpace,
     alt: 'Деталь інтерʼєру салону VERVENA: тепле денне світло падає на матові поверхні та живі рослини',
     caption: 'Простір',
     span: 'tall',
   },
   {
+    image: galleryColour,
     alt: 'Макрознімок текстури доглянутого волосся з природними переливами відтінку',
     caption: 'Колір',
     span: 'square',
   },
   {
+    image: galleryDetails,
     alt: 'Робоче місце майстра манікюру з акуратно розкладеним стерильним інструментом',
     caption: 'Деталі',
     span: 'square',
   },
   {
+    image: galleryLight,
     alt: 'Мʼяке природне світло з вікна на зоні догляду за обличчям салону VERVENA',
     caption: 'Світло',
     span: 'wide',

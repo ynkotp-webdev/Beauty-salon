@@ -55,6 +55,7 @@ variables, so they surface as utilities (`bg-canvas`, `text-mocha`,
 
 ```
 src/
+├── assets/          # photography, optimised at build time by astro:assets
 ├── data/            # single source of truth for all content (typed)
 │   ├── site.ts          brand, nav, contacts, hours, socials
 │   ├── services.ts      catalogue with transparent "від {₴}" pricing
@@ -65,7 +66,7 @@ src/
 │   │   ├── Container · Section · SectionHeading · Eyebrow
 │   │   ├── Button   # the single action primitive (link/button, variants)
 │   │   ├── Reveal   # scroll-reveal opt-in wrapper
-│   │   └── Figure   # art-directed placeholder "photography"
+│   │   └── Figure   # photography slot, with duotone placeholder fallback
 │   ├── sections/    # one component per page block (AIDA narrative)
 │   ├── Header · Footer · StickyCta
 ├── layouts/BaseLayout.astro   # <head>, SEO/OG, JSON-LD, skip link
@@ -101,17 +102,67 @@ Specialists → Gallery → Testimonials → FAQ → **Booking** → Contact →
 - **Accessibility:** semantic landmarks, one `<h1>`, skip link, visible 2px
   focus rings, ≥48px touch targets, `prefers-reduced-motion` honoured.
 - **Performance:** self-hosted variable fonts, static output, `aspect-ratio`
-  reserved on media (CLS ≈ 0), lazy patterns, minimal JS.
+  reserved on media (CLS ≈ 0), lazy patterns, minimal JS. Every photograph goes
+  through `astro:assets` — WebP, per-breakpoint `srcset`/`sizes`, lazy by
+  default; only the hero still is `eager` + `fetchpriority="high"` (it is LCP).
 - **SEO:** per-page title/description, Open Graph + Twitter, canonical, and
   `BeautySalon` JSON-LD structured data.
 
 ---
 
-## Replacing the placeholder imagery
+## Фотографії (🇺🇦)
 
-There is no stock photography by design (the research treats it as a status
-killer). Each [`Figure`](src/components/ui/Figure.astro) renders an intentional
-warm duotone tile and carries descriptive `alt` text describing the exact shot
-that belongs there. To go live, swap `Figure`/`.placeholder-media` blocks for
-`astro:assets` `<Image />` using the same aspect ratios, plus a ≤ 3.5 MB WebM/AV1
-cinemagraph behind the hero.
+Усі 13 знімків уже підставлені й лежать у [`src/assets/`](src/assets/). Стокових
+фото немає — це єдина серія, знята в одному світлі й тоні («тиха розкіш»:
+тепле бічне денне світло, приглушена насиченість, натуральні матеріали, багато
+негативного простору).
+
+Плейсхолдери **не видалені**: [`Figure`](src/components/ui/Figure.astro) малює
+теплу дуотон-плитку із зерном, якщо не передати `src`. Тому будь-яку секцію
+можна тимчасово лишити без фото — верстка не поламається.
+
+### Що де стоїть
+
+| # | Файл у `src/assets/` | Секція | Пропорція кадру |
+| --- | --- | --- | --- |
+| 1 | `hero.webp` | [`Hero.astro`](src/components/sections/Hero.astro) — головне фото | `4/5` |
+| 2 | `about.webp` | [`About.astro`](src/components/sections/About.astro) — філософія | `4/5` |
+| 3–4 | `results-before.jpg` · `results-after.jpg` | [`Results.astro`](src/components/sections/Results.astro) — «До / Після» | `16/10` |
+| 5–9 | `specialist-{iryna,marta,solomiya,ostap,khrystyna}.webp` | [`Specialists.astro`](src/components/sections/Specialists.astro), прив’язка в [`specialists.ts`](src/data/specialists.ts) | `4/5` |
+| 10 | `gallery-space.webp` | Галерея «Простір» (`tall`) | `1/2` у сітці |
+| 11 | `gallery-colour.webp` | Галерея «Колір» (`square`) | `1/1` |
+| 12 | `gallery-details.webp` | Галерея «Деталі» (`square`) | `1/1` |
+| 13 | `gallery-light.webp` | Галерея «Світло» (`wide`) | `2/1` |
+
+Прив’язка фото до майстра — за фахом, а не за номером файлу: Ірина
+(колористка) — кадр біля дзеркала з брашами, Марта (косметологиня) — кабінет
+догляду за обличчям.
+
+Брендові ассети: [`public/og-image.jpg`](public/og-image.jpg) (рівно 1200×630,
+прев’ю при поширенні посилання) і [`public/favicon.svg`](public/favicon.svg) —
+монограма «V» з гілкою вербени на плитці кольору `espresso`; той самий знак
+без плитки лежить у [`public/logo.svg`](public/logo.svg).
+
+### Чого ще бракує
+
+- **Фонове відео для Hero** — короткий (15–20 с) беззвучний «cinemagraph»-луп
+  з ледь помітним рухом (штори, пара, світло), **WebM/AV1**, ≤ 3.5 МБ, автоплей
+  у циклі. Зараз на його місці — статичний кадр `hero.webp` + мʼякий градієнт.
+  Відео накладається поверх, не змінюючи розмітку: контейнер уже тримає
+  пропорцію `4/5`, тож зсуву контенту (CLS) не буде.
+
+### Як додати або замінити фото
+
+1. Поклади оптимізований файл (WebP/AVIF) у `src/assets/`.
+2. Імпортуй його й передай у `Figure` як `src` — `alt` уже написані в коді
+   та в [`data/`](src/data/), **не видаляй їх** (a11y + SEO):
+   ```astro
+   ---
+   import Figure from '@ui/Figure.astro';
+   import shot from '@/assets/shot.webp';
+   ---
+   <Figure src={shot} alt="…" ratio="4/5" />
+   ```
+3. Розміри й формати `astro:assets` згенерує сам. Вручну стискати не треба —
+   вихідник клади великим, збірка зробить із нього `srcset`.
+4. Перевір: `npm run build`, далі `npm run preview`.
