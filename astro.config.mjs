@@ -5,7 +5,9 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   // Public production URL — used for canonical links, sitemap and Open Graph tags.
-  site: 'https://vervena.salon',
+  site: 'https://ynkotp-webdev.github.io',
+  // The site is served from a GitHub Pages project subpath, not the domain root.
+  base: '/Beauty-salon',
   vite: {
     plugins: [tailwindcss()],
   },

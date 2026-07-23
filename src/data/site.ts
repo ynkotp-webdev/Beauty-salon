@@ -13,7 +13,8 @@ export const site = {
     'Салон краси у центрі Львова: волосся, догляд за обличчям, манікюр, брови та вії. Спокійний ритуал догляду і уважні майстри.',
   metaDescription:
     'VERVENA — салон краси на вул. Вірменській у Львові. Стрижка та колористика, догляд за обличчям, манікюр, брови й вії. Прозорі ціни, зручний онлайн-запис, спокійна атмосфера.',
-  url: 'https://vervena.salon',
+  /** Origin only — the `base` subpath comes from Astro.url / BASE_URL. */
+  url: 'https://ynkotp-webdev.github.io',
   locale: 'uk_UA',
   lang: 'uk',
 } as const;
