@@ -22,9 +22,29 @@ const {
   ogImage = `${base}/og-image.jpg`,
 } = Astro.props;
 
-const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
+const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.tagline}`;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const ogImageUrl = new URL(ogImage, site.url).href;
+
+// `openingHours` stores human day/hour ranges (e.g. "Понеділок–Пʼятниця",
+// "09:00–21:00") for display; schema.org's OpeningHoursSpecification needs
+// each day spelled out and opens/closes as separate ISO-ish time strings, so
+// expand the ranges here rather than duplicating the data in two shapes.
+const weekDays = ['Понеділок', 'Вівторок', 'Середа', 'Четвер', 'Пʼятниця', 'Субота', 'Неділя'];
+const dayToSchema: Record<string, string> = {
+  Понеділок: 'Monday',
+  Вівторок: 'Tuesday',
+  Середа: 'Wednesday',
+  Четвер: 'Thursday',
+  Пʼятниця: 'Friday',
+  Субота: 'Saturday',
+  Неділя: 'Sunday',
+};
+const expandDays = (label: string): string[] => {
+  const [start, end] = label.split('–').map((d) => d.trim());
+  if (!end) return [dayToSchema[start]];
+  return weekDays.slice(weekDays.indexOf(start), weekDays.indexOf(end) + 1).map((d) => dayToSchema[d]);
+};
 
 // Schema.org LocalBusiness (BeautySalon) for rich results.
 const jsonLd = {
@@ -49,10 +69,15 @@ const jsonLd = {
     latitude: contact.geo.lat,
     longitude: contact.geo.lng,
   },
-  openingHoursSpecification: openingHours.map((o) => ({
-    '@type': 'OpeningHoursSpecification',
-    description: `${o.day}: ${o.hours}`,
-  })),
+  openingHoursSpecification: openingHours.map((o) => {
+    const [opens, closes] = o.hours.split('–').map((h) => h.trim());
+    return {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: expandDays(o.day).map((d) => `https://schema.org/${d}`),
+      opens,
+      closes,
+    };
+  }),
   sameAs: socials.map((s) => s.href),
 };
 ---
@@ -72,7 +97,7 @@ const jsonLd = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#f4efe9" />
+    <meta name="theme-color" content="#fbf6f0" />
     <meta name="color-scheme" content="light" />
 
     <!-- Open Graph -->
@@ -85,7 +110,7 @@ const jsonLd = {
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${site.name} — ${site.tagline}`} />
+    <meta property="og:image:alt" content={`${site.name} · ${site.tagline}`} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -104,7 +129,7 @@ const jsonLd = {
     <!-- Skip link — first tab stop, jumps to main content. -->
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl2 focus:bg-mocha focus:px-5 focus:py-3 focus:text-porcelain focus:shadow-lift"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl2 focus:bg-mocha-deep focus:px-5 focus:py-3 focus:text-porcelain focus:shadow-lift"
     >
       Перейти до основного вмісту
     </a>

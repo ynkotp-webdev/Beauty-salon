@@ -13,7 +13,7 @@ import { testimonials } from '@data/content';
   <SectionHeading
     eyebrow="Відгуки гостей"
     heading="Те, що залишається після візиту"
-    intro="Кілька чесних вражень наших гостей. Ми не вигадуємо цифр — цінуємо реальні слова."
+    intro="Кілька чесних вражень наших гостей. Ми не вигадуємо цифр, а цінуємо реальні слова."
     id="reviews-heading"
     class="mb-14"
   />
@@ -28,17 +28,17 @@ import { testimonials } from '@data/content';
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 18.9 6.1 21.2l1.3-6.6L2.5 9.9l6.6-.8z" /></svg>
               ))}
             </div>
-            <blockquote class="mt-5 flex-1">
+            <blockquote class="scroll-parallax-quote mt-5 flex-1">
               <p class="font-display text-lg font-light leading-relaxed text-ink">«{t.quote}»</p>
             </blockquote>
             <figcaption class="mt-6 flex items-center gap-3 border-t border-mist pt-5">
-              <span class="flex h-11 w-11 items-center justify-center rounded-full bg-sand font-display text-lg text-mocha-deep" aria-hidden="true">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full bg-sand font-display text-lg text-mocha-deeper" aria-hidden="true">
                 {t.author.charAt(0)}
               </span>
               <span class="min-w-0">
                 <span class="block font-medium text-ink">{t.author}</span>
                 <span class="block text-sm text-stone">
-                  {t.meta} · <span class="text-olive">Підтверджено · {t.source}</span>
+                  {t.meta} · <span class="text-olive">{t.source}</span>
                 </span>
               </span>
             </figcaption>

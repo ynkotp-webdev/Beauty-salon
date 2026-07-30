@@ -83,6 +83,8 @@ class BeforeAfterSlider {
     // Clip the "before" layer from the right so "after" shows through.
     this.beforeWrapper.style.clipPath = `inset(0 ${100 - this.position}% 0 0)`;
     this.handle.style.left = `${this.position}%`;
-    this.handle.setAttribute('aria-valuenow', String(Math.round(this.position)));
+    const rounded = Math.round(this.position);
+    this.handle.setAttribute('aria-valuenow', String(rounded));
+    this.handle.setAttribute('aria-valuetext', rounded === 50 ? '50%, рівно посередині' : `${rounded}%`);
   }
 }

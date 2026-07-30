@@ -14,7 +14,11 @@ import Button from '@ui/Button.astro';
 import { serviceCategories } from '@data/services';
 import { specialists } from '@data/specialists';
 
-const timeSlots = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00'];
+const timeGroups = [
+  { label: 'Ранок', slots: ['10:00', '11:30'] },
+  { label: 'День', slots: ['13:00', '14:30', '16:00'] },
+  { label: 'Вечір', slots: ['17:30', '19:00'] },
+];
 ---
 
 <Section id="booking" tone="linen" space="lg" width="default">
@@ -24,7 +28,7 @@ const timeSlots = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00'
       Підберімо зручний час разом
     </h2>
     <p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-stone">
-      Кілька спокійних кроків — без реєстрації та зайвих полів. Ми підтвердимо
+      Кілька спокійних кроків без реєстрації та зайвих полів. Ми підтвердимо
       запис у месенджері або телефоном.
     </p>
   </div>
@@ -38,14 +42,14 @@ const timeSlots = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00'
     <!-- Progress -->
     <div class="mb-8">
       <div class="mb-2 flex items-center justify-between">
-        <span data-progress-label class="eyebrow">Крок 1 з 3</span>
+        <span data-progress-label class="eyebrow">Крок 1 / 3</span>
         <span class="text-sm text-stone">Залишилось зовсім трохи</span>
       </div>
       <div class="h-1.5 w-full overflow-hidden rounded-full bg-sand" role="presentation">
         <div
           data-progress-fill
-          class="h-full rounded-full bg-mocha transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-          style="width:33%"
+          class="h-full w-full origin-left rounded-full bg-mocha transition-transform duration-500 ease-out-quart"
+          style="transform:scaleX(0.3333)"
         ></div>
       </div>
     </div>
@@ -60,13 +64,13 @@ const timeSlots = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00'
         <h3 data-step-focus tabindex="-1" class="font-display text-xl font-normal text-ink focus:outline-none">
           Що вас цікавить?
         </h3>
-        <p class="mt-1 text-sm text-stone">Оберіть напрям — деталі узгодимо з майстром.</p>
+        <p class="mt-1 text-sm text-stone">Оберіть напрям, а деталі узгодимо з майстром.</p>
 
         <div data-required-group="direction" class="mt-6 grid gap-3 sm:grid-cols-2">
           {
-            serviceCategories.map((cat, i) => (
+            serviceCategories.map((cat) => (
               <label class="group relative cursor-pointer">
-                <input type="radio" name="direction" value={cat.id} data-label={cat.title} class="peer sr-only" required checked={i === 0} />
+                <input type="radio" name="direction" value={cat.id} data-label={cat.title} class="peer sr-only" required />
                 <span class="flex h-full flex-col rounded-xl2 border border-mist bg-canvas p-5 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] peer-checked:border-mocha peer-checked:bg-mocha/[0.06] peer-checked:shadow-soft peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-mocha group-hover:border-mocha/40">
                   <span class="font-display text-lg text-ink">{cat.title}</span>
                   <span class="mt-2 text-sm leading-snug text-stone">{cat.summary}</span>
@@ -81,7 +85,7 @@ const timeSlots = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00'
         </p>
 
         <div class="mt-8 flex justify-end">
-          <Button type="button" data-next>Далі — обрати майстра</Button>
+          <Button type="button" data-next>Обрати майстра</Button>
         </div>
       </fieldset>
 
@@ -102,14 +106,14 @@ const timeSlots = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00'
               </span>
               <span>
                 <span class="block font-medium text-ink">Будь-який вільний майстер</span>
-                <span class="block text-sm text-stone">Найближчий доступний час — якщо цінуєте швидкість.</span>
+                <span class="block text-sm text-stone">Найближчий доступний час, якщо цінуєте швидкість.</span>
               </span>
             </span>
           </label>
 
           {
             specialists.map((person) => (
-              <label class="group relative cursor-pointer">
+              <label class="group relative cursor-pointer" data-directions={person.directions.join(',')}>
                 <input type="radio" name="specialist" value={person.id} data-label={person.name} class="peer sr-only" />
                 <span class="flex h-full items-center gap-3 rounded-xl2 border border-mist bg-canvas p-4 transition-all duration-300 peer-checked:border-mocha peer-checked:bg-mocha/[0.06] peer-checked:shadow-soft peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-mocha group-hover:border-mocha/40">
                   <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sand font-display text-mocha-deep" aria-hidden="true">
@@ -131,7 +135,7 @@ const timeSlots = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00'
 
         <div class="mt-8 flex items-center justify-between gap-3">
           <Button type="button" variant="ghost" data-back>← Назад</Button>
-          <Button type="button" data-next>Далі — час і контакти</Button>
+          <Button type="button" data-next>Час і контакти</Button>
         </div>
       </fieldset>
 
@@ -153,25 +157,30 @@ const timeSlots = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00'
               type="date"
               required
               data-validate
-              class="min-h-[3rem] rounded-xl2 border border-mist bg-canvas px-4 text-ink transition-colors focus:border-mocha data-[invalid]:border-error"
+              class="min-h-[3rem] rounded-xl2 border border-mist bg-canvas px-4 text-ink transition-colors focus:border-mocha aria-[invalid=true]:border-error"
             />
             <p data-error hidden class="flex items-center gap-1.5 text-sm text-error">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" /><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
             </p>
           </div>
 
-          <!-- Time slots -->
-          <div class="flex flex-col gap-2">
+          <!-- Time slots, chunked into Ранок/День/Вечір so no single group exceeds 4 options. -->
+          <div class="flex flex-col gap-3">
             <span class="text-sm font-medium text-ink">Зручний час</span>
-            <div data-required-group="time" class="flex flex-wrap gap-2">
+            <div data-required-group="time" class="flex flex-col gap-2.5">
               {
-                timeSlots.map((slot, i) => (
-                  <label class="cursor-pointer">
-                    <input type="radio" name="time" value={slot} data-label={slot} class="peer sr-only" checked={i === 2} required />
-                    <span class="inline-flex min-h-[2.75rem] items-center rounded-xl2 border border-mist bg-canvas px-4 text-sm text-ink transition-all peer-checked:border-mocha peer-checked:bg-mocha peer-checked:text-porcelain peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-mocha hover:border-mocha/50">
-                      {slot}
-                    </span>
-                  </label>
+                timeGroups.map((group) => (
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="w-14 shrink-0 text-xs uppercase tracking-widest text-stone">{group.label}</span>
+                    {group.slots.map((slot) => (
+                      <label class="cursor-pointer">
+                        <input type="radio" name="time" value={slot} data-label={slot} class="peer sr-only" required />
+                        <span class="inline-flex min-h-[2.75rem] items-center rounded-xl2 border border-mist bg-canvas px-4 text-sm text-ink transition-all peer-checked:border-mocha-deep peer-checked:bg-mocha-deep peer-checked:text-porcelain peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-mocha hover:border-mocha/50">
+                          {slot}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
                 ))
               }
             </div>
@@ -258,7 +267,7 @@ const timeSlots = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00'
       <dl data-booking-summary class="mx-auto mt-8 max-w-md text-left"></dl>
 
       <p class="mt-8 text-sm text-stone">
-        Потрібно щось змінити? Зателефонуйте нам — ми на звʼязку.
+        Потрібно щось змінити? Зателефонуйте нам, ми на звʼязку.
       </p>
     </div>
   </form>

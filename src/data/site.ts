@@ -12,7 +12,7 @@ export const site = {
   shortDescription:
     'Салон краси у центрі Львова: волосся, догляд за обличчям, манікюр, брови та вії. Спокійний ритуал догляду і уважні майстри.',
   metaDescription:
-    'VERVENA — салон краси на вул. Вірменській у Львові. Стрижка та колористика, догляд за обличчям, манікюр, брови й вії. Прозорі ціни, зручний онлайн-запис, спокійна атмосфера.',
+    'Салон краси VERVENA на вул. Вірменській у Львові: стрижка та колористика, догляд за обличчям, манікюр, брови й вії. Прозорі ціни, зручний онлайн-запис, спокійна атмосфера.',
   /** Origin only — the `base` subpath comes from Astro.url / BASE_URL. */
   url: 'https://ynkotp-webdev.github.io',
   locale: 'uk_UA',
@@ -29,7 +29,6 @@ export const navLinks: NavLink[] = [
   { label: 'Послуги', href: '#services' },
   { label: 'Філософія', href: '#about' },
   { label: 'Майстри', href: '#specialists' },
-  { label: 'Результати', href: '#results' },
   { label: 'Відгуки', href: '#reviews' },
   { label: 'Контакти', href: '#contact' },
 ];
@@ -55,9 +54,9 @@ export interface OpeningHour {
 }
 
 export const openingHours: OpeningHour[] = [
-  { day: 'Понеділок — Пʼятниця', hours: '09:00 — 21:00' },
-  { day: 'Субота', hours: '10:00 — 20:00' },
-  { day: 'Неділя', hours: '10:00 — 18:00' },
+  { day: 'Понеділок–Пʼятниця', hours: '09:00–21:00' },
+  { day: 'Субота', hours: '10:00–20:00' },
+  { day: 'Неділя', hours: '10:00–18:00' },
 ];
 
 export interface SocialLink {
@@ -74,4 +73,4 @@ export const socials: SocialLink[] = [
 
 /** Soft, informative availability note (no aggressive urgency — per research). */
 export const availabilityNote =
-  'Найближче вільне вікно до провідного колориста — четвер, 14:00';
+  'Найближче вільне вікно до провідного колориста: четвер, 14:00';

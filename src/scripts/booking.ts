@@ -24,11 +24,64 @@ export function initBooking(): void {
     if (liveRegion) liveRegion.textContent = msg;
   };
 
+  // Persist in-progress answers across an accidental refresh/tab-close — the
+  // brand promises an unhurried, no-rush booking decision, so a visitor who
+  // steps away mid-form shouldn't come back to a blank step 1.
+  const DRAFT_KEY = 'vervena-booking-draft';
+  const saveDraft = () => {
+    const values: Record<string, string> = {};
+    new FormData(form).forEach((v, k) => { values[k] = String(v); });
+    sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ step: current, values }));
+  };
+  const restoreDraft = (): number => {
+    const raw = sessionStorage.getItem(DRAFT_KEY);
+    if (!raw) return 0;
+    try {
+      const { step, values } = JSON.parse(raw) as { step: number; values: Record<string, string> };
+      for (const [name, value] of Object.entries(values)) {
+        const radio = form.querySelector<HTMLInputElement>(`input[name="${name}"][value="${CSS.escape(value)}"]`);
+        if (radio) { radio.checked = true; continue; }
+        const field = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${name}"]`);
+        if (field) field.value = value;
+      }
+      return Number.isInteger(step) && step > 0 && step < total ? step : 0;
+    } catch {
+      return 0;
+    }
+  };
+
+  // Step 2 only shows specialists who actually cover the direction chosen in
+  // step 1 (plus "any available"), so the choice stays within the ≤4-option
+  // cognitive-load guideline instead of listing all 5 masters regardless of
+  // relevance.
+  const specialistGroup = form.querySelector<HTMLElement>('[data-required-group="specialist"]');
+  const filterSpecialistsByDirection = () => {
+    if (!specialistGroup) return;
+    const direction = form.querySelector<HTMLInputElement>('input[name="direction"]:checked')?.value;
+    let checkedWasHidden = false;
+    specialistGroup.querySelectorAll<HTMLLabelElement>('label[data-directions]').forEach((label) => {
+      const matches = !direction || label.dataset.directions!.split(',').includes(direction);
+      label.toggleAttribute('hidden', !matches);
+      if (!matches && label.querySelector('input')?.checked) checkedWasHidden = true;
+    });
+    // The direction changed out from under a previously-picked specialist —
+    // fall back to "any available" rather than leaving a hidden radio checked.
+    if (checkedWasHidden) {
+      const anyInput = specialistGroup.querySelector<HTMLInputElement>('input[value="any"]');
+      if (anyInput) anyInput.checked = true;
+    }
+  };
+  form.querySelectorAll<HTMLInputElement>('input[name="direction"]').forEach((radio) => {
+    radio.addEventListener('change', filterSpecialistsByDirection);
+  });
+  form.addEventListener('input', saveDraft);
+  form.addEventListener('change', saveDraft);
+
   const showStep = (index: number, moveFocus = true) => {
     current = index;
     steps.forEach((s, i) => s.toggleAttribute('hidden', i !== index));
-    if (progressFill) progressFill.style.width = `${((index + 1) / total) * 100}%`;
-    if (progressLabel) progressLabel.textContent = `Крок ${index + 1} з ${total}`;
+    if (progressFill) progressFill.style.transform = `scaleX(${(index + 1) / total})`;
+    if (progressLabel) progressLabel.textContent = `Крок ${index + 1} / ${total}`;
     // Move focus to the step heading for screen-reader + keyboard continuity.
     // preventScroll is essential: the steps swap in place, so focusing must
     // never yank the page — and it must NOT run on initial load at all
@@ -37,6 +90,7 @@ export function initBooking(): void {
       steps[index].querySelector<HTMLElement>('[data-step-focus]')?.focus({ preventScroll: true });
     }
     announce(`${progressLabel?.textContent ?? ''}`);
+    saveDraft();
   };
 
   /** Validate every required control inside a given step. */
@@ -155,11 +209,20 @@ export function initBooking(): void {
       return input?.getAttribute('data-label') ?? String(data.get(name) ?? '');
     };
 
+    // The <input type="date"> value is always ISO (YYYY-MM-DD) regardless of
+    // locale; parse it via local y/m/d components (not `new Date(iso)`, which
+    // reads as UTC midnight and can roll back a day in the summary).
+    const formatDate = (iso: FormDataEntryValue | null) => {
+      const [y, m, d] = String(iso).split('-').map(Number);
+      if (!y || !m || !d) return String(iso ?? '');
+      return new Intl.DateTimeFormat('uk-UA').format(new Date(y, m - 1, d));
+    };
+
     if (summaryEl) {
       const rows: Array<[string, string]> = [
         ['Напрям', label('direction')],
         ['Майстер', label('specialist')],
-        ['Дата й час', `${data.get('date')} · ${data.get('time')}`],
+        ['Дата й час', `${formatDate(data.get('date'))} · ${data.get('time')}`],
         ['Імʼя', String(data.get('name') ?? '')],
         ['Телефон', String(data.get('phone') ?? '')],
       ];
@@ -172,6 +235,7 @@ export function initBooking(): void {
         .join('');
     }
 
+    sessionStorage.removeItem(DRAFT_KEY);
     form.querySelector<HTMLElement>('[data-booking-flow]')?.setAttribute('hidden', '');
     successPanel?.removeAttribute('hidden');
     successPanel?.querySelector<HTMLElement>('[data-step-focus]')?.focus({ preventScroll: true });
@@ -182,7 +246,13 @@ export function initBooking(): void {
   const dateInput = form.querySelector<HTMLInputElement>('input[type="date"]');
   if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
 
-  // Initialise on step 0 WITHOUT moving focus — otherwise the page would
-  // scroll down to the booking form the moment it loads.
-  showStep(0, false);
+  // Restore an in-progress draft (if the visitor left and came back), then
+  // apply the direction filter to whichever direction ended up checked
+  // (restored or default) before the visitor ever reaches step 2.
+  const restoredStep = restoreDraft();
+  filterSpecialistsByDirection();
+
+  // Initialise on the restored (or first) step WITHOUT moving focus —
+  // otherwise the page would scroll down to the booking form on load.
+  showStep(restoredStep, false);
 }

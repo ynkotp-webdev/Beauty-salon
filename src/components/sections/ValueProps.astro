@@ -10,15 +10,21 @@ import { valueProps } from '@data/content';
 ---
 
 <Section id="values" tone="linen" space="md" label="Чому нам довіряють">
-  <div class="grid gap-px overflow-hidden rounded-2xl2 bg-mist/70 sm:grid-cols-3">
+  <Reveal as="h2" class="mb-8 max-w-md font-display text-2xl font-light leading-[1.1] text-ink sm:text-3xl">
+    Чому нам довіряють
+  </Reveal>
+  <div class="grid gap-px overflow-clip rounded-2xl2 bg-mocha/8 p-1 sm:grid-cols-3">
     {
       valueProps.map((prop, i) => (
-        <Reveal delay={i * 90} class="flex h-full flex-col gap-4 bg-linen p-8 sm:p-10">
+        <Reveal
+          delay={i * 90}
+          class="flex h-full flex-col gap-4 rounded-2xl2 border border-transparent bg-linen p-8 transition-all duration-500 ease-out-quart hover:-translate-y-1 hover:border-mocha/30 hover:shadow-lift sm:p-10"
+        >
           <span class="font-display text-sm text-mocha-deep" aria-hidden="true">
             {String(i + 1).padStart(2, '0')}
           </span>
           <h3 class="font-display text-xl font-normal text-ink">{prop.title}</h3>
-          <p class="text-[0.95rem] leading-relaxed text-stone">{prop.body}</p>
+          <p class="text-note leading-relaxed text-stone">{prop.body}</p>
         </Reveal>
       ))
     }

@@ -11,18 +11,23 @@ export function initHeader(): void {
   const stickyCta = document.querySelector<HTMLElement>('[data-sticky-cta]');
   const sentinel = document.querySelector<HTMLElement>('[data-hero-sentinel]');
 
-  // Condense header + toggle sticky CTA based on hero visibility.
+  // Sticky CTA appears once the hero has fully scrolled past.
   if (sentinel && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver(
-      ([entry]) => {
-        const past = !entry.isIntersecting;
-        header?.toggleAttribute('data-scrolled', past);
-        stickyCta?.toggleAttribute('data-visible', past);
-      },
+      ([entry]) => stickyCta?.toggleAttribute('data-visible', !entry.isIntersecting),
       { rootMargin: '-80px 0px 0px 0px' },
     );
     io.observe(sentinel);
   }
+
+  // Header condenses as soon as the page scrolls at all — independent of hero
+  // height. Tying this to the hero-bottom sentinel meant any viewport shorter
+  // than the hero (roughly ≤1074px tall, e.g. common 1440×900/1366×768
+  // windows) started pre-condensed on load, skipping the transparent-over-hero
+  // entrance entirely.
+  const updateHeaderScrolled = () => header?.toggleAttribute('data-scrolled', window.scrollY > 24);
+  updateHeaderScrolled();
+  window.addEventListener('scroll', updateHeaderScrolled, { passive: true });
 
   if (!toggle || !menu) return;
 

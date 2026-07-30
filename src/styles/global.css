@@ -28,8 +28,9 @@
   --color-espresso: oklch(26% 0.018 60); /* Deep warm — inverted sections     */
 
   /* — Quiet-luxury accents — */
-  --color-mocha: oklch(62% 0.08 65); /* Mocha Mousse — brand / primary CTA */
-  --color-mocha-deep: oklch(52% 0.08 62); /* Hover / pressed state             */
+  --color-mocha: oklch(62% 0.08 65); /* Mocha Mousse — brand accent, chips, rules */
+  --color-mocha-deep: oklch(52% 0.08 62); /* Solid CTA fill — porcelain text needs ≥52% darkness for 4.5:1 AA */
+  --color-mocha-deeper: oklch(46% 0.08 62); /* CTA hover/pressed — one step past mocha-deep */
   --color-lavender: oklch(88% 0.04 290); /* Digital Lavender — soft accent    */
   --color-olive: oklch(52% 0.06 140); /* Verdant Olive — organic accent    */
   --color-sand: oklch(90% 0.03 75); /* Warm chip / tag background        */
@@ -43,7 +44,9 @@
   --font-sans: 'Manrope Variable', 'Segoe UI', system-ui, sans-serif;
 
   /* Perfect-Fourth (1.333) scale, fluid via clamp(). */
+  --text-chip: 0.7rem; /* Category badges, image captions — smaller than caption */
   --text-caption: 0.75rem;
+  --text-note: 0.95rem; /* Secondary/note copy between sm and base */
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
@@ -228,9 +231,79 @@
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
     white-space: nowrap;
     border: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   5. SCROLL CHOREOGRAPHY — native animation-timeline: view()
+   A one-time signature moment for three sections (ValueProps, Testimonials,
+   Services), CSS-only, zero JS weight: cards settle into place, a
+   testimonial quote drifts at its own depth, a service duration label
+   sharpens into focus like a photograph developing — extending the existing
+   film-grain motif into an actual scroll-linked material response instead of
+   a static texture. Deliberately NOT on the price itself: this brand treats
+   visible pricing as a trust commitment (see PRODUCT.md), so nothing that
+   ever renders a price illegible belongs on that element.
+   Where the browser supports it (Chromium; Firefox behind a flag as of
+   writing), this replaces the JS/transition-based reveal above for the same
+   elements — CSS animations always take precedence over a running
+   transition on the same property, so no explicit conflict handling is
+   needed. Where unsupported, the @supports guard means these elements
+   simply keep the existing fade+translate reveal untouched. */
+@supports (animation-timeline: view()) {
+  .scroll-settle {
+    view-timeline-name: --settle-in;
+    view-timeline-axis: block;
+    animation: scroll-settle-in linear both;
+    animation-timeline: --settle-in;
+    animation-range: entry 0% cover 30%;
+  }
+  @keyframes scroll-settle-in {
+    from {
+      opacity: 0;
+      transform: translateY(18px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .scroll-parallax-quote {
+    view-timeline-name: --quote-depth;
+    view-timeline-axis: block;
+    animation: scroll-quote-drift linear both;
+    animation-timeline: --quote-depth;
+    animation-range: cover 0% cover 100%;
+  }
+  @keyframes scroll-quote-drift {
+    from {
+      transform: translateY(10px);
+    }
+    to {
+      transform: translateY(-10px);
+    }
+  }
+
+  .scroll-develop {
+    view-timeline-name: --develop-in;
+    view-timeline-axis: block;
+    animation: scroll-develop-in linear both;
+    animation-timeline: --develop-in;
+    animation-range: entry 0% cover 15%;
+  }
+  @keyframes scroll-develop-in {
+    from {
+      opacity: 0.25;
+      filter: blur(5px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
   }
 }
 
@@ -250,5 +323,16 @@
   .js.reveal-enabled [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
+  }
+  /* Scroll-timeline animations aren't governed by wall-clock duration, so the
+     blanket animation-duration override above doesn't reach them — stop
+     them explicitly and land on their resting, fully-legible state. */
+  .scroll-settle,
+  .scroll-parallax-quote,
+  .scroll-develop {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }

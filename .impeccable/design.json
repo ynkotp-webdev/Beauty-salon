@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-28T18:00:00.000Z",
+  "title": "Design System: VERVENA",
+  "extensions": {
+    "colorMeta": {
+      "canvas": { "role": "neutral", "displayName": "Warm Alabaster", "canonical": "oklch(97.5% 0.01 75)", "tonalRamp": ["oklch(15% 0.01 75)", "oklch(28% 0.01 75)", "oklch(40% 0.01 75)", "oklch(52% 0.01 75)", "oklch(64% 0.01 75)", "oklch(75% 0.01 75)", "oklch(85% 0.01 75)", "oklch(95% 0.01 75)"] },
+      "linen": { "role": "neutral", "displayName": "Muted Linen", "canonical": "oklch(93% 0.02 75)", "tonalRamp": ["oklch(15% 0.02 75)", "oklch(28% 0.02 75)", "oklch(40% 0.02 75)", "oklch(52% 0.02 75)", "oklch(64% 0.02 75)", "oklch(75% 0.02 75)", "oklch(85% 0.02 75)", "oklch(95% 0.02 75)"] },
+      "porcelain": { "role": "neutral", "displayName": "Porcelain", "canonical": "oklch(99% 0.004 75)", "tonalRamp": ["oklch(15% 0.004 75)", "oklch(28% 0.004 75)", "oklch(40% 0.004 75)", "oklch(52% 0.004 75)", "oklch(64% 0.004 75)", "oklch(75% 0.004 75)", "oklch(85% 0.004 75)", "oklch(95% 0.004 75)"] },
+      "ink": { "role": "neutral", "displayName": "Slate Charcoal", "canonical": "oklch(22% 0.01 240)", "tonalRamp": ["oklch(15% 0.01 240)", "oklch(28% 0.01 240)", "oklch(40% 0.01 240)", "oklch(52% 0.01 240)", "oklch(64% 0.01 240)", "oklch(75% 0.01 240)", "oklch(85% 0.01 240)", "oklch(95% 0.01 240)"] },
+      "stone": { "role": "neutral", "displayName": "Soft Stone", "canonical": "oklch(45% 0.02 240)", "tonalRamp": ["oklch(15% 0.02 240)", "oklch(28% 0.02 240)", "oklch(40% 0.02 240)", "oklch(52% 0.02 240)", "oklch(64% 0.02 240)", "oklch(75% 0.02 240)", "oklch(85% 0.02 240)", "oklch(95% 0.02 240)"] },
+      "mist": { "role": "neutral", "displayName": "Pale Mist", "canonical": "oklch(88% 0.008 240)", "tonalRamp": ["oklch(15% 0.008 240)", "oklch(28% 0.008 240)", "oklch(40% 0.008 240)", "oklch(52% 0.008 240)", "oklch(64% 0.008 240)", "oklch(75% 0.008 240)", "oklch(85% 0.008 240)", "oklch(95% 0.008 240)"] },
+      "espresso": { "role": "neutral", "displayName": "Deep Espresso", "canonical": "oklch(26% 0.018 60)", "tonalRamp": ["oklch(15% 0.018 60)", "oklch(28% 0.018 60)", "oklch(40% 0.018 60)", "oklch(52% 0.018 60)", "oklch(64% 0.018 60)", "oklch(75% 0.018 60)", "oklch(85% 0.018 60)", "oklch(95% 0.018 60)"] },
+      "sand": { "role": "neutral", "displayName": "Warm Sand", "canonical": "oklch(90% 0.03 75)", "tonalRamp": ["oklch(15% 0.03 75)", "oklch(28% 0.03 75)", "oklch(40% 0.03 75)", "oklch(52% 0.03 75)", "oklch(64% 0.03 75)", "oklch(75% 0.03 75)", "oklch(85% 0.03 75)", "oklch(95% 0.03 75)"] },
+      "mocha": { "role": "primary", "displayName": "Mocha Mousse", "canonical": "oklch(62% 0.08 65)", "tonalRamp": ["oklch(15% 0.03 65)", "oklch(28% 0.05 65)", "oklch(40% 0.07 65)", "oklch(52% 0.08 65)", "oklch(64% 0.08 65)", "oklch(75% 0.07 65)", "oklch(85% 0.05 65)", "oklch(95% 0.03 65)"] },
+      "mocha-deep": { "role": "primary", "displayName": "Mocha Mousse Deep", "canonical": "oklch(52% 0.08 62)", "tonalRamp": ["oklch(15% 0.03 62)", "oklch(28% 0.05 62)", "oklch(40% 0.07 62)", "oklch(52% 0.08 62)", "oklch(64% 0.08 62)", "oklch(75% 0.07 62)", "oklch(85% 0.05 62)", "oklch(95% 0.03 62)"] },
+      "mocha-deeper": { "role": "primary", "displayName": "Mocha Mousse Deeper", "canonical": "oklch(46% 0.08 62)", "tonalRamp": ["oklch(15% 0.03 62)", "oklch(28% 0.05 62)", "oklch(40% 0.07 62)", "oklch(52% 0.08 62)", "oklch(64% 0.08 62)", "oklch(75% 0.07 62)", "oklch(85% 0.05 62)", "oklch(95% 0.03 62)"] },
+      "olive": { "role": "secondary", "displayName": "Verdant Olive", "canonical": "oklch(52% 0.06 140)", "tonalRamp": ["oklch(15% 0.02 140)", "oklch(28% 0.04 140)", "oklch(40% 0.05 140)", "oklch(52% 0.06 140)", "oklch(64% 0.06 140)", "oklch(75% 0.05 140)", "oklch(85% 0.04 140)", "oklch(95% 0.02 140)"] },
+      "lavender": { "role": "tertiary", "displayName": "Digital Lavender", "canonical": "oklch(88% 0.04 290)", "tonalRamp": ["oklch(15% 0.02 290)", "oklch(28% 0.02 290)", "oklch(40% 0.03 290)", "oklch(52% 0.04 290)", "oklch(64% 0.04 290)", "oklch(75% 0.03 290)", "oklch(85% 0.02 290)", "oklch(95% 0.02 290)"] },
+      "success": { "role": "system", "displayName": "Soft Success Green", "canonical": "oklch(58% 0.11 145)", "tonalRamp": ["oklch(15% 0.04 145)", "oklch(28% 0.07 145)", "oklch(40% 0.09 145)", "oklch(52% 0.11 145)", "oklch(64% 0.11 145)", "oklch(75% 0.09 145)", "oklch(85% 0.07 145)", "oklch(95% 0.04 145)"] },
+      "error": { "role": "system", "displayName": "Restrained Error Red", "canonical": "oklch(52% 0.16 25)", "tonalRamp": ["oklch(15% 0.06 25)", "oklch(28% 0.10 25)", "oklch(40% 0.14 25)", "oklch(52% 0.16 25)", "oklch(64% 0.16 25)", "oklch(75% 0.14 25)", "oklch(85% 0.10 25)", "oklch(95% 0.06 25)"] },
+      "porcelain-dim": { "role": "neutral", "displayName": "Warm Porcelain", "canonical": "oklch(92% 0.01 75)", "tonalRamp": ["oklch(15% 0.01 75)", "oklch(28% 0.01 75)", "oklch(40% 0.01 75)", "oklch(52% 0.01 75)", "oklch(64% 0.01 75)", "oklch(75% 0.01 75)", "oklch(85% 0.01 75)", "oklch(95% 0.01 75)"] },
+      "porcelain-bright": { "role": "neutral", "displayName": "Bright Porcelain", "canonical": "oklch(97% 0.008 75)", "tonalRamp": ["oklch(15% 0.008 75)", "oklch(28% 0.008 75)", "oklch(40% 0.008 75)", "oklch(52% 0.008 75)", "oklch(64% 0.008 75)", "oklch(75% 0.008 75)", "oklch(85% 0.008 75)", "oklch(95% 0.008 75)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only; one word set in italic mocha-deep for emphasis instead of bold." },
+      "headline": { "displayName": "Headline", "purpose": "Every section's h2/h3." },
+      "body": { "displayName": "Body", "purpose": "Running copy; a 1.125rem lead variant is used for intros and pull quotes." },
+      "note": { "displayName": "Note", "purpose": "Secondary copy between body and label — card descriptions, bios, footer tagline, button labels." },
+      "label": { "displayName": "Label / Eyebrow", "purpose": "Uppercase kicker above section headings." },
+      "chip": { "displayName": "Chip", "purpose": "Smallest step — category badges and image captions." }
+    },
+    "shadows": [
+      { "name": "soft", "value": "0 1px 2px oklch(26% 0.02 60 / 0.04), 0 8px 24px oklch(26% 0.02 60 / 0.06)", "purpose": "Resting elevation for the primary button and default raised surfaces." },
+      { "name": "lift", "value": "0 2px 4px oklch(26% 0.02 60 / 0.05), 0 18px 40px oklch(26% 0.02 60 / 0.1)", "purpose": "Hover state for cards/buttons; resting state for panel-level surfaces (booking form, hero media, sticky CTA)." }
+    ],
+    "motion": [
+      { "name": "ease-out-quart", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Default easing for hover, reveal, and state transitions." },
+      { "name": "ease-in-out-soft", "value": "cubic-bezier(0.65, 0, 0.35, 1)", "purpose": "Used for symmetric open/close transitions (mobile menu, sticky CTA slide)." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single primary-action button; used once per view (booking CTA).",
+      "html": "<button class=\"ds-btn-primary\">Записатися</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem; min-height: 3rem; padding: 0 1.5rem; font-family: 'Manrope Variable', system-ui, sans-serif; font-weight: 500; letter-spacing: 0.01em; font-size: 0.95rem; color: oklch(99% 0.004 75); background: oklch(52% 0.08 62); border: none; border-radius: 1rem; box-shadow: 0 1px 2px oklch(26% 0.02 60 / 0.04), 0 8px 24px oklch(26% 0.02 60 / 0.06); transition: background 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.15s; cursor: pointer; } .ds-btn-primary:hover { background: oklch(46% 0.08 62); box-shadow: 0 2px 4px oklch(26% 0.02 60 / 0.05), 0 18px 40px oklch(26% 0.02 60 / 0.1); } .ds-btn-primary:focus-visible { outline: 2px solid oklch(62% 0.08 65); outline-offset: 3px; } .ds-btn-primary:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Inset-ring outline button for a second-priority action beside the primary CTA.",
+      "html": "<button class=\"ds-btn-secondary\">Переглянути послуги</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem; min-height: 3rem; padding: 0 1.5rem; font-family: 'Manrope Variable', system-ui, sans-serif; font-weight: 500; font-size: 0.95rem; color: oklch(22% 0.01 240); background: transparent; border: none; border-radius: 1rem; box-shadow: inset 0 0 0 1px oklch(22% 0.01 240 / 0.15); transition: box-shadow 0.3s cubic-bezier(0.16,1,0.3,1), background 0.3s; cursor: pointer; } .ds-btn-secondary:hover { box-shadow: inset 0 0 0 1px oklch(22% 0.01 240 / 0.4); background: oklch(22% 0.01 240 / 0.03); } .ds-btn-secondary:focus-visible { outline: 2px solid oklch(22% 0.01 240); outline-offset: 3px; } .ds-btn-secondary:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Lowest-emphasis action, e.g. an inline link styled as a button.",
+      "html": "<button class=\"ds-btn-ghost\">Дізнатися більше</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem; min-height: 3rem; padding: 0 1.5rem; font-family: 'Manrope Variable', system-ui, sans-serif; font-weight: 500; font-size: 0.95rem; color: oklch(52% 0.08 62); background: transparent; border: none; border-radius: 1rem; transition: background 0.3s cubic-bezier(0.16,1,0.3,1), color 0.3s; cursor: pointer; } .ds-btn-ghost:hover { color: oklch(22% 0.01 240); background: oklch(62% 0.08 65 / 0.06); } .ds-btn-ghost:focus-visible { outline: 2px solid oklch(62% 0.08 65); outline-offset: 3px; } .ds-btn-ghost:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Content Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat-at-rest card used for services and testimonials; gains shadow + lift only on hover.",
+      "html": "<article class=\"ds-card\"><span class=\"ds-card-eyebrow\">01</span><h3 class=\"ds-card-title\">Волосся</h3><p class=\"ds-card-text\">Стрижка, колористика та відновлення — з увагою до структури вашого волосся.</p></article>",
+      "css": ".ds-card { display: flex; flex-direction: column; gap: 0.75rem; background: oklch(99% 0.004 75); border: 1px solid oklch(88% 0.008 240); border-radius: 1.5rem; padding: 1.75rem; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s; } .ds-card:hover { transform: translateY(-4px); border-color: oklch(62% 0.08 65 / 0.3); box-shadow: 0 2px 4px oklch(26% 0.02 60 / 0.05), 0 18px 40px oklch(26% 0.02 60 / 0.1); } .ds-card-eyebrow { display: inline-block; align-self: flex-start; font-family: 'Manrope Variable', system-ui, sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(52% 0.08 62); background: oklch(62% 0.08 65 / 0.1); border-radius: 9999px; padding: 0.25rem 0.75rem; } .ds-card-title { font-family: 'Fraunces Variable', Georgia, serif; font-weight: 400; font-size: 1.5rem; color: oklch(22% 0.01 240); } .ds-card-text { font-family: 'Manrope Variable', system-ui, sans-serif; font-size: 0.95rem; line-height: 1.6; color: oklch(45% 0.02 240); }"
+    },
+    {
+      "name": "Category Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Small rounded label used for service-category numbering and gallery/testimonial captions.",
+      "html": "<span class=\"ds-chip\">Колористика</span>",
+      "css": ".ds-chip { display: inline-block; font-family: 'Manrope Variable', system-ui, sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(52% 0.08 62); background: oklch(62% 0.08 65 / 0.1); border-radius: 9999px; padding: 0.25rem 0.75rem; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Booking-form field: canvas background, mist border, mocha focus.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Наприклад, Софія\" />",
+      "css": ".ds-input { min-height: 3rem; width: 100%; padding: 0 1rem; font-family: 'Manrope Variable', system-ui, sans-serif; font-size: 1rem; color: oklch(22% 0.01 240); background: oklch(97.5% 0.01 75); border: 1px solid oklch(88% 0.008 240); border-radius: 1rem; transition: border-color 0.2s; } .ds-input::placeholder { color: oklch(45% 0.02 240 / 0.5); } .ds-input:focus { outline: none; border-color: oklch(62% 0.08 65); } .ds-input[aria-invalid=\"true\"] { border-color: oklch(52% 0.16 25); }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Desktop header link with a mocha underline that grows in from the left on hover.",
+      "html": "<a class=\"ds-nav-link\" href=\"#services\">Послуги</a>",
+      "css": ".ds-nav-link { position: relative; font-family: 'Manrope Variable', system-ui, sans-serif; font-size: 0.875rem; color: oklch(45% 0.02 240); text-decoration: none; transition: color 0.2s; } .ds-nav-link::after { content: ''; position: absolute; left: 0; bottom: -0.375rem; height: 1px; width: 0; background: oklch(62% 0.08 65); transition: width 0.3s cubic-bezier(0.16,1,0.3,1); } .ds-nav-link:hover { color: oklch(22% 0.01 240); } .ds-nav-link:hover::after { width: 100%; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Atelier",
+    "overview": "VERVENA reads like an unhurried Lviv craftsperson's studio, not a salon chasing volume. The palette is warm and grounded — every neutral, including the near-black ones, carries a tint rather than sitting on true gray — and the two accent hues (mocha, and a much rarer olive/lavender) show up in small doses: a chip, a rule, a single CTA. Fraunces at a light weight gives headlines an editorial, slightly serif calm; Manrope carries the reading text. Nothing in the system shouts: no bold color fills, no hard shadows, no snap transitions. Depth and emphasis come from restraint — a hairline border, a soft warm-tinted shadow that only appears on interaction, a translate instead of a flash. The system explicitly rejects the visual vocabulary of a \"conveyor-belt\" salon: no countdown timers, no saturated banner blocks, no loud iconography, no inflated numbers. Motion is capped and physically eased; a whisper of film grain sits under everything as the only textural flourish, standing in for the tactility a photograph alone can't carry.",
+    "keyCharacteristics": [
+      "Warm OKLCH neutrals (never true gray) paired with three rare, low-saturation accents (mocha, olive, lavender)",
+      "Fraunces (light weight, serif, editorial) for display type; Manrope for everything read at length",
+      "Flat-at-rest surfaces; shadows and lift are an interaction response, never a resting state",
+      "Physically-eased motion only (cubic-bezier(0.16, 1, 0.3, 1) / cubic-bezier(0.65, 0, 0.35, 1)) — linear and default ease are banned",
+      "Soft, generous corners (1rem–1.5rem) everywhere except hairline dividers"
+    ],
+    "rules": [
+      { "name": "The Warm Neutral Rule", "body": "No neutral in this system is true gray. Surfaces sit around hue 75 (warm), text sits around hue 240 (cool charcoal) — but even the darkest tones (ink, espresso) carry a visible tint, never #000-adjacent desaturation.", "section": "colors" },
+      { "name": "The Rare Accent Rule", "body": "Mocha, olive, and lavender never fill a large surface at full opacity. They appear as: a small rounded chip (/10–/25 opacity background), a 1px gradient rule, a single primary CTA, or a blurred, low-opacity ambient wash. The moment an accent covers more than a button or a chip, dilute it.", "section": "colors" },
+      { "name": "The Legible Fill Rule", "body": "mocha (62% lightness) is a hue, not a fill — it never sits behind porcelain text. Any solid button/chip/CTA fill carrying porcelain text uses mocha-deep at rest and mocha-deeper on hover, both ≥4.5:1 against porcelain.", "section": "colors" },
+      { "name": "The Light Display Rule", "body": "All headline-level type ships at font-weight 300 (Tailwind's font-light), even though the base stylesheet's h1–h4 rule declares 380 as an unstyled fallback. Emphasis inside a headline comes from italics and color (mocha-deep), never from added weight.", "section": "typography" },
+      { "name": "The Flat-at-Rest Rule", "body": "A shadow is either a hover response or a signal that an element floats above the page by design (buttons, panels, the sticky bar). A passive content card at rest never carries one — only its mist border does the work.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do show every price plainly as \"від {sum} ₴\" next to its service — never hide pricing behind a \"contact us\" gate.",
+      "Do keep every tappable control (buttons, radio cards, chips) at a 48px+ minimum touch target.",
+      "Do reserve an image's aspect-ratio up front (the Figure component) so nothing shifts as photos load; CLS stays at zero.",
+      "Do pair every validation state with text + an icon, never color alone.",
+      "Do give every interactive element a visible focus-visible ring: 2px mocha, 3px offset.",
+      "Do respect prefers-reduced-motion completely — all transitions and the scroll-reveal system collapse to instant with it on."
+    ],
+    "donts": [
+      "Don't use linear or default ease-in-out easing anywhere; only the two physically-eased curves (ease-out-quart, ease-in-out-soft) are sanctioned.",
+      "Don't fill a large surface with a saturated accent color; mocha/olive/lavender stay in chips, rules, a single CTA, or low-opacity ambient washes.",
+      "Don't use aggressive urgency copy, countdown timers, or fake scarcity — the hero's one availability note is soft and informational, never a pressure tactic.",
+      "Don't let a scroll-reveal travel more than 20px or apply a hard shadow to a resting content card.",
+      "Don't invent or inflate numbers (review counts, client counts, ratings) — this system's honesty about being a fictional portfolio project depends on never dressing up the fake content as verified real evidence."
+    ]
+  }
+}

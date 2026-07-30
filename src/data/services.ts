@@ -31,7 +31,7 @@ export const serviceCategories: ServiceCategory[] = [
   {
     id: 'hair',
     title: 'Волосся',
-    summary: 'Стрижка, колористика та відновлення — з увагою до структури вашого волосся.',
+    summary: 'Стрижка, колористика та відновлення з увагою до структури вашого волосся.',
     accent: 'mocha',
     items: [
       {
@@ -48,7 +48,7 @@ export const serviceCategories: ServiceCategory[] = [
       },
       {
         name: 'Складна колористика',
-        note: 'Air touch, розтяжка, балаяж — мʼякі природні переходи.',
+        note: 'Air touch, розтяжка, балаяж: мʼякі природні переходи.',
         duration: 'від 180 хв',
         priceFrom: 2400,
       },

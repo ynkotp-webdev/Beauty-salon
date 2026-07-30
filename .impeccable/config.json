@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-07-29T09:33:07.729Z",
+        "reason": "User confirmed the body film-grain texture (radial-gradient dot pattern, documented in DESIGN.md Overview) is intentional, not a decorative grid/line-field pattern"
+      }
+    ]
+  }
+}

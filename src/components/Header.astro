@@ -18,7 +18,7 @@ import Button from '@ui/Button.astro';
     <a
       href="#top"
       class="font-display text-2xl font-normal tracking-[0.22em] text-ink transition-opacity hover:opacity-70"
-      aria-label={`${site.name} — на початок`}
+      aria-label={`${site.name}, на початок сторінки`}
     >
       {site.name}
     </a>
@@ -73,7 +73,7 @@ import Button from '@ui/Button.astro';
 <div
   id="mobile-menu"
   data-mobile-menu
-  class="invisible fixed inset-0 z-45 flex flex-col bg-canvas pt-20 opacity-0 transition-[opacity,visibility] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] data-open:visible data-open:opacity-100 lg:hidden"
+  class="group invisible fixed inset-0 z-45 flex flex-col bg-canvas pt-20 opacity-0 transition-[opacity,visibility] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] data-open:visible data-open:opacity-100 lg:hidden"
 >
   <ul class="flex flex-1 flex-col justify-center gap-2 px-6">
     {
@@ -81,7 +81,7 @@ import Button from '@ui/Button.astro';
         <li>
           <a
             href={link.href}
-            class="block border-b border-mist/60 py-4 font-display text-2xl font-light text-ink"
+            class="block translate-y-2 border-b border-mist/60 py-4 font-display text-2xl font-light text-ink opacity-0 transition-[opacity,transform] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-data-open:translate-y-0 group-data-open:opacity-100"
             style={`transition-delay:${i * 30}ms`}
           >
             {link.label}
