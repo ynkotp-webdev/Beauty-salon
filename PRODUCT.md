@@ -29,7 +29,8 @@ A single-page marketing + booking site for a fictional premium beauty salon, "VE
 - Single-page site with a fixed AIDA section order: Hero → Value props → Services → About → Results → Specialists → Gallery → Testimonials → FAQ → Booking → Contact → Footer.
 - Multi-step booking form (direction → specialist → time/contact) is a deliberate, confirmed constraint: client-only, no backend. It simulates a request that would be confirmed "by messenger or phone," not an actual reservation system.
 - Ukrainian language and locale (`uk_UA`) throughout; phone formats, dates, and references are Ukraine-specific (+380).
-- Deployed as a static site via GitHub Pages / GitHub Actions.
+- Deployed as a static site via GitHub Pages / GitHub Actions (portfolio demo) and Cloudflare Workers (client-hosting showcase).
+- Services/prices and masters are editable by the salon in Pages CMS (`.pages.yml`): the site doubles as a live demo of "you edit prices yourself" for sales calls.
 
 ## Capabilities and Constraints
 

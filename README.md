@@ -58,8 +58,10 @@ src/
 ├── assets/          # photography, optimised at build time by astro:assets
 ├── data/            # single source of truth for all content (typed)
 │   ├── site.ts          brand, nav, contacts, hours, socials
-│   ├── services.ts      catalogue with transparent "від {₴}" pricing
-│   ├── specialists.ts   masters (craft-focused, no fake experience counts)
+│   ├── services.json    catalogue with transparent "від {₴}" pricing (CMS-editable)
+│   ├── services.ts      types + reads services.json
+│   ├── specialists.json masters, no fake experience counts (CMS-editable)
+│   ├── specialists.ts   types + resolves portrait paths to astro:assets images
 │   └── content.ts       value props, philosophy, gallery, testimonials, FAQ
 ├── components/
 │   ├── ui/          # reusable primitives
@@ -79,6 +81,21 @@ src/
 
 Path aliases (`@ui/*`, `@components/*`, `@data/*`, …) are defined in
 [`tsconfig.json`](tsconfig.json).
+
+### Content editing and hosting
+
+- **Admin:** [Pages CMS](https://pagescms.org), config in [`.pages.yml`](.pages.yml).
+  Editors get an email invite and sign in with a code from the email, no GitHub
+  account. They edit services/prices and masters/photos; every save is a commit
+  to `main` by `pages-cms[bot]`. Booking-form directions are a fixed select in
+  `.pages.yml`: a new service category needs a line there too.
+- **Portrait uploads** land in `src/assets/specialists/`. The build fails with
+  `Portrait not found` if a JSON path points to a missing file, so a broken photo
+  never ships.
+- **Hosting:** two deploys from the same `main`:
+  - GitHub Pages (portfolio demo) at `/Beauty-salon`: [`deploy.yml`](.github/workflows/deploy.yml)
+  - Cloudflare Workers at https://beauty-salon.ynk-otp-nl.workers.dev/ ([`wrangler.jsonc`](wrangler.jsonc)).
+    `astro.config.mjs` switches `base` to `/` when `WORKERS_CI` is set.
 
 ### Page narrative (AIDA)
 
@@ -128,7 +145,7 @@ Specialists → Gallery → Testimonials → FAQ → **Booking** → Contact →
 | 1 | `hero.webp` | [`Hero.astro`](src/components/sections/Hero.astro) — головне фото | `4/5` |
 | 2 | `about.webp` | [`About.astro`](src/components/sections/About.astro) — філософія | `4/5` |
 | 3–4 | `results-before.jpg` · `results-after.jpg` | [`Results.astro`](src/components/sections/Results.astro) — «До / Після» | `16/10` |
-| 5–9 | `specialist-{iryna,marta,solomiya,ostap,khrystyna}.webp` | [`Specialists.astro`](src/components/sections/Specialists.astro), прив’язка в [`specialists.ts`](src/data/specialists.ts) | `4/5` |
+| 5–9 | `specialists/{iryna,marta,solomiya,ostap,khrystyna}.webp` | [`Specialists.astro`](src/components/sections/Specialists.astro), прив’язка в [`specialists.json`](src/data/specialists.json) (міняється в Pages CMS) | `4/5` |
 | 10 | `gallery-space.webp` | Галерея «Простір» (`tall`) | `1/2` у сітці |
 | 11 | `gallery-colour.webp` | Галерея «Колір» (`square`) | `1/1` |
 | 12 | `gallery-details.webp` | Галерея «Деталі» (`square`) | `1/1` |
