@@ -1,0 +1,8 @@
+// Cloudflare Workers static hosting: serves the built site from ./dist, no server code.
+{
+  "name": "vervena",
+  "compatibility_date": "2026-11-10",
+  "assets": {
+    "directory": "./dist"
+  }
+}

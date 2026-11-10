@@ -1,0 +1,82 @@
+# Pages CMS (https://pagescms.org): the salon edits prices and masters here.
+# Every save is a commit to main; Cloudflare and GitHub Pages rebuild from it.
+
+media:
+  - name: portraits
+    label: Фото майстрів
+    input: src/assets/specialists
+    output: /src/assets/specialists
+    categories: [image]
+    rename: safe
+
+content:
+  - name: services
+    label: Послуги і ціни
+    type: file
+    path: src/data/services.json
+    format: json
+    fields:
+      - name: categories
+        label: Напрями
+        type: object
+        list: { collapsible: true }
+        fields:
+          - name: id
+            label: Службовий код
+            description: Латиницею, без пробілів. Не міняйте в наявних напрямах, на нього посилаються майстри.
+            type: string
+            required: true
+            pattern: { regex: '^[a-z0-9-]+$', message: 'Лише малі латинські літери, цифри й дефіс' }
+          - { name: title, label: Назва, type: string, required: true }
+          - { name: summary, label: Опис одним реченням, type: text }
+          - name: accent
+            label: Колір мітки
+            type: select
+            options:
+              values:
+                - { value: mocha, label: Мока }
+                - { value: olive, label: Оливковий }
+                - { value: lavender, label: Лавандовий }
+          - name: items
+            label: Послуги
+            type: object
+            list: { collapsible: true }
+            fields:
+              - { name: name, label: Назва послуги, type: string, required: true }
+              - { name: note, label: Короткий опис, type: text }
+              - { name: duration, label: Тривалість, description: "Наприклад: 60–90 хв", type: string, required: true }
+              - { name: priceFrom, label: 'Ціна від, ₴', type: number, required: true, options: { min: 0 } }
+
+  - name: specialists
+    label: Майстри
+    type: file
+    path: src/data/specialists.json
+    format: json
+    fields:
+      - name: specialists
+        label: Майстри
+        type: object
+        list: { collapsible: true }
+        fields:
+          - name: id
+            label: Службовий код
+            description: Латиницею, без пробілів, унікальний.
+            type: string
+            required: true
+            pattern: { regex: '^[a-z0-9-]+$', message: 'Лише малі латинські літери, цифри й дефіс' }
+          - { name: name, label: Імʼя та прізвище, type: string, required: true }
+          - { name: role, label: Посада, type: string, required: true }
+          - { name: focus, label: Про майстра, type: text, required: true }
+          - { name: areas, label: Теги на картці, type: string, list: true }
+          - name: directions
+            label: Напрями для форми запису
+            type: select
+            options:
+              multiple: true
+              values:
+                - { value: hair, label: Волосся }
+                - { value: skincare, label: Догляд за обличчям }
+                - { value: nails, label: Манікюр і педикюр }
+                - { value: brows, label: Брови та вії }
+          - { name: portrait, label: Фото, type: image, required: true, options: { media: portraits } }
+          - { name: portraitAlt, label: Опис фото для незрячих, type: text, required: true }
